@@ -144,7 +144,7 @@ data_027e0fce kind:bss addr:0x27e0fce
 data_027e0fd0 kind:bss addr:0x27e0fd0
 data_027e0fd4 kind:bss addr:0x27e0fd4
 data_027e0fd8 kind:bss addr:0x27e0fd8
-data_027e0fdc kind:bss addr:0x27e0fdc
+gLinkStates kind:bss addr:0x27e0fdc
 data_027e0fe0 kind:bss addr:0x27e0fe0
 gActorManager kind:bss addr:0x27e0fe4
 data_027e0fe8 kind:bss addr:0x27e0fe8
