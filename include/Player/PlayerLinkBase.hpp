@@ -78,6 +78,7 @@ public:
     bool func_ov00_020bce48(ItemId cutsceneItemId); // PlayItemCutscene
     bool func_ov00_020bd304();
     bool GongoronCollidesWith(Cylinder *hitbox);
+    unk32 Grab();
     s32 GetGrabActorId();
     PlayerCharacter GetCurrentCharacter();
 };

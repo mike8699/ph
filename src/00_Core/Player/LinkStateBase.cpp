@@ -3,10 +3,16 @@
 void LinkStateBase::vfunc_00() {}
 void LinkStateBase::OnStateEnter() {}
 void LinkStateBase::OnStateLeave(s32 param1) {}
-bool LinkStateBase::vfunc_20(s32 param1) {}
+bool LinkStateBase::vfunc_20(s32 param1) {
+    return false;
+}
 bool LinkStateBase::vfunc_24(s32 param1) {}
-bool LinkStateBase::vfunc_28() {}
-bool LinkStateBase::vfunc_34(Vec3p *param1) {}
+bool LinkStateBase::vfunc_28() {
+    return true;
+}
+bool LinkStateBase::vfunc_34(Vec3p *param1) {
+    return false;
+}
 void LinkStateBase::GiveControlToLink() {}
 void LinkStateBase::SetPlayerCharacter(PlayerCharacter character) {}
 void LinkStateBase::ChangeLinkState(LinkStateId id) {}
@@ -68,9 +74,15 @@ unk8 *LinkStateBase::func_ov00_020a8c64() {}
 s16 *LinkStateBase::GetPlayerAngle() {}
 void *LinkStateBase::GetPlayer_Unk18() {}
 s32 LinkStateBase::Get_PlayerControlData_Unk32() {}
-Actor *LinkStateBase::GetGrabActor() {}
-ActorRef *LinkStateBase::GetGrabActorRef() {}
-unk32 LinkStateBase::Grab() {}
+Actor *LinkStateBase::GetGrabActor() {
+    return gActorManager->GetActor(&this->mLink->mGrabActor);
+}
+ActorRef *LinkStateBase::GetGrabActorRef() {
+    return &this->mLink->mGrabActor;
+}
+unk32 LinkStateBase::Grab() {
+    return this->mLink->Grab();
+}
 s32 LinkStateBase::Get_PlayerLinkBase_Unk44() {}
 bool LinkStateBase::IsEquipBeingUsed(ItemFlag id) {}
 EquipItem *LinkStateBase::GetEquipItem(ItemFlag id) {}
