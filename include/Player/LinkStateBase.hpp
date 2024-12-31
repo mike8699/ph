@@ -129,6 +129,6 @@ public:
     DebugHierarchy *GetDebugHierarchy1();
 };
 
-unk32 GetLinkState(s32 index);
+LinkStateBase *GetLinkState(s32 index);
 
 extern LinkStateBase **gLinkStates;

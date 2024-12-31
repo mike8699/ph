@@ -23,7 +23,9 @@ EquipBombchu *LinkStateItem::GetEquipBombchu() {
     return (EquipBombchu *)ItemManager::GetEquipItemUnchecked(7);
 }
 
-LinkStateMove *LinkStateItem::GetLinkStateMove() {}
+LinkStateMove *LinkStateItem::GetLinkStateMove() {
+  return (LinkStateMove *)GetLinkState(0);
+}
 
 bool LinkStateItem::func_ov00_020abf70() {
     return gAdventureFlags->func_ov00_02097b9c(this->mUnk_5c);
