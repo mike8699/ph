@@ -4,6 +4,8 @@
 
 #include "Player/EquipItem.hpp"
 
+class LinkStateItem;
+
 class EquipHammer : public EquipItem {
 private:
     /* 00 (base) */
@@ -29,10 +31,12 @@ public:
     /* 18 */ virtual void vfunc_18() override; // func_ov59_02198e3c
     /* 1c */ virtual void vfunc_1c() override; // func_ov59_02198e58
 
-    /* 2c */ virtual unk32 vfunc_2c() override; // func_ov59_02198fcc
+    /* 2c */ virtual u32 vfunc_2c() override; // func_ov59_02198fcc
     /* 30 */ virtual void vfunc_30() override; // func_ov59_02198e6c
     /* 38 */ virtual void vfunc_38(unk32 param1) override; // func_0v59_02198fc8
     /* 3c */ virtual bool GetHitbox(Cylinder *hitbox) const override; // func_ov14_0213ee10
     /* 4c */ virtual s32 vfunc_4c() const override; // func_ov14_0213eea8
     /* 50 */
+
+    static void StopUsing(LinkStateItem *param1);
 };

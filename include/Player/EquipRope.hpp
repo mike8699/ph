@@ -15,6 +15,7 @@ struct EquipRope_Unk_18 {
 };
 
 class Actor;
+class LinkStateItem;
 
 class EquipRope : public EquipItem {
 public:
@@ -59,4 +60,6 @@ public:
     bool func_ov14_0213dadc(s32 index, Cylinder *cylinder);
     s32 func_ov14_0213ddd4(Actor *actor);
     bool func_ov14_0213defc(Actor *actor);
+
+    static void StopUsing(LinkStateItem *param1);
 };

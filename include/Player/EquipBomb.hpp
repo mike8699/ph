@@ -4,6 +4,8 @@
 
 #include "Player/EquipItem.hpp"
 
+class LinkStateItem;
+
 class EquipBomb : public EquipItem {
 private:
     /* 00 (base) */
@@ -26,4 +28,6 @@ public:
     /* 38 */ virtual void vfunc_38(unk32 param1) override; // func_ov55_2198df8
     /* 50 */ virtual void vfunc_50(); // func_ov14_0213d228
     /* 54 */
+
+    static void StopUsing(LinkStateItem *param1);
 };

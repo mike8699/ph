@@ -4,6 +4,8 @@
 
 #include "Player/EquipItem.hpp"
 
+class LinkStateItem;
+
 class EquipScoop : public EquipItem {
 private:
     /* 0 (base) */
@@ -24,4 +26,6 @@ public:
     /* 44 */ virtual unk32 vfunc_44(unk32 param1) const override; // func_ov54_02198d38
     /* 48 */ virtual unk32 vfunc_48(unk32 param1) const override; // func_ov54_02198d48
     /* 50 */
+
+    static void StopUsing(LinkStateItem *param1);
 };
