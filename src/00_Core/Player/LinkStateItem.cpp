@@ -1,4 +1,8 @@
 #include "Item/ItemManager.hpp"
+#include "Player/EquipBomb.hpp"
+#include "Player/EquipHammer.hpp"
+#include "Player/EquipItem.hpp"
+#include "Player/EquipScoop.hpp"
 #include "Player/LinkStateItem.hpp"
 #include "Save/AdventureFlags.hpp"
 
@@ -17,7 +21,46 @@ s32 LinkStateItem::IsHammerEquipped() {
     }
 }
 
-void LinkStateItem::OnStateLeave(s32 param1) {}
+void LinkStateItem::OnStateLeave(s32 param1) {
+  EquipItem *pEVar1;
+  LinkStateMove *pLVar2;
+  s32 iVar3;
+  unk32 *puVar4;
+
+  LinkStateBase::OnStateLeave(param1);
+
+  switch(this->mEquipId) {
+    case 0:
+      break;
+    case 1:
+      break;
+    case 2:
+      break;
+    case 3:
+      EquipScoop::StopUsing(this);
+      break;
+    case 4:
+      EquipBomb::StopUsing(this);
+      break;
+    case 5:
+      break;
+    case 6:
+      EquipRope::StopUsing(this);
+      break;
+    case 7:
+      // TODO
+      break;
+    case 8:
+      EquipHammer::StopUsing(this);
+      break;
+    case 9:
+    case 10:
+      // TODO
+      break;
+  }
+
+  this->mNextEquip = 0xffffffff;
+}
 
 EquipBombchu *LinkStateItem::GetEquipBombchu() {
     return (EquipBombchu *)ItemManager::GetEquipItemUnchecked(7);
