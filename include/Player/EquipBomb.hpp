@@ -29,5 +29,5 @@ public:
     /* 50 */ virtual void vfunc_50(); // func_ov14_0213d228
     /* 54 */
 
-    static void StopUsing(LinkStateItem *param1);
+    static void StopUsing(LinkStateItem *param1, unk32 param2);
 };
