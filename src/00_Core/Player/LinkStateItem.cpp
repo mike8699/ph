@@ -39,27 +39,28 @@ void LinkStateItem::OnStateLeave(s32 param1) {
     LinkStateBase::OnStateLeave(param1);
 
     switch (this->mEquipId) {
-        case 0: break;
-        case 1: break;
-        case 2: break;
-        case 3: EquipScoop::StopUsing(this); break;
-        case 4: EquipBomb::StopUsing(this); break;
-        case 5: break;
-        case 6: EquipRope::StopUsing(this); break;
         case 7:
-      /* bombchu */
+            /* bombchu */
             iVar3 = func_ov000_020cf01c((s32 *) (*(s32 *) 0x20abf44));
-            if (*(char *) (iVar3 + 0xe0) == '\0') {
+            if (*(u8 *) (iVar3 + 0xe0) == '\0') {
                 func_ov014_0213ec64((s32) GetEquipBombchu());
             }
             func_ov014_0211fd04(*(s32 *) (0x20abf48));
             break;
-        case 8: EquipHammer::StopUsing(this); break;
         case 9:
+        case 0: break;
+        case 1: break;
+        case 2: break;
+        case 4: EquipBomb::StopUsing(this); break;
+        case 5: break;
+        case 6: EquipRope::StopUsing(this); break;
+        case 8: EquipHammer::StopUsing(this); break;
         case 10:
             iVar3                    = *(int *) (0x20abf44);
             *(unk8 *) (iVar3 + 0x2a) = 0;
             func_ov000_020cf9dc(iVar3, 0, 0);
+            break;
+        case 3: EquipScoop::StopUsing(this); break;
     }
 
     if (this->mEquipId != -1) {
@@ -67,13 +68,14 @@ void LinkStateItem::OnStateLeave(s32 param1) {
         pEVar1->vfunc_1c();
     }
 
-    if ((this->mEquipId <= 9 && this->mEquipId >= 9) || (this->mEquipId <= 1 && this->mEquipId >= -1)) {
-        this->EquipItem_vfunc_28();
-    } else {
+    if ((this->mEquipId <= 9 && this->mEquipId >= 9) || (this->mEquipId <= 1 && this->mEquipId >= -1) && (this->mEquipId != -1 && this->mEquipId != 0 && this->mEquipId != 1)) {
+        if (this->mEquipId == 10) this->EquipItem_vfunc_28();
+    }
+    else {
         this->EquipItem_vfunc_28();
 
         if (param1 != 4 && param1 != 2) {
-            pLVar2          = this->GetLinkStateMove();
+            pLVar2 = this->GetLinkStateMove();
             pLVar2->mUnk_14 = true;
         }
     }
