@@ -86,7 +86,7 @@ ARM void LinkStateItem::OnStateLeave(s32 param1) {
             }
     }
 
-    this->mNextEquip = 0xffffffff;
+    this->mNextEquip = -1;
 
     puVar4 = (unk32 *) this + 20;
     puVar5 = (unk32 *) this + 22;
