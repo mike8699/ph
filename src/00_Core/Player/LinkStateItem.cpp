@@ -13,13 +13,13 @@ extern void func_ov014_0213ec64(s32 param1);
 extern void func_ov014_0211fd04(s32 param1);
 extern void func_ov000_020b7e6c(s32 *param1);
 
-void LinkStateItem::vfunc_00() {}
+THUMB void LinkStateItem::vfunc_00() {}
 
-LinkStateId LinkStateItem::GetId() {
+ARM LinkStateId LinkStateItem::GetId() {
     return 1;
 }
 
-s32 LinkStateItem::IsHammerEquipped() {
+ARM s32 LinkStateItem::IsHammerEquipped() {
     switch (this->mEquipId) {
         case 8:
             return 0;
@@ -29,7 +29,7 @@ s32 LinkStateItem::IsHammerEquipped() {
 }
 
 
-void LinkStateItem::OnStateLeave(s32 param1) {
+ARM void LinkStateItem::OnStateLeave(s32 param1) {
     EquipItem *pEVar1;
     LinkStateMove *pLVar2;
     s32 iVar3;
@@ -100,18 +100,18 @@ void LinkStateItem::OnStateLeave(s32 param1) {
     return;
 }
 
-EquipBombchu *LinkStateItem::GetEquipBombchu() {
+ARM EquipBombchu *LinkStateItem::GetEquipBombchu() {
     return (EquipBombchu *)ItemManager::GetEquipItemUnchecked(7);
 }
 
-LinkStateMove *LinkStateItem::GetLinkStateMove() {
+ARM LinkStateMove *LinkStateItem::GetLinkStateMove() {
   return (LinkStateMove *)GetLinkState(0);
 }
 
-bool LinkStateItem::func_ov00_020abf70() {
+ARM bool LinkStateItem::func_ov00_020abf70() {
     return gAdventureFlags->func_ov00_02097b9c(this->mUnk_5c);
 }
 
-bool LinkStateItem::vfunc_28() {
+ARM bool LinkStateItem::vfunc_28() {
     return this->mUnk_5c < 0;
 }
