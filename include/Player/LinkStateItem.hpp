@@ -47,7 +47,7 @@ public:
     /* 44 */
 
     s32 IsHammerEquipped(); // returns 0 if hammer is equipped, otherwise -1
-    EquipBombchu *GetEquipBombchu();
-    LinkStateMove *GetLinkStateMove();
+    static EquipBombchu *GetEquipBombchu();
+    static LinkStateMove *GetLinkStateMove();
     bool func_ov00_020abf70();
 };
