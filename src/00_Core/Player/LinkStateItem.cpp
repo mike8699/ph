@@ -51,7 +51,7 @@ void LinkStateItem::OnStateLeave(s32 param1) {
         case 0: break;
         case 1: break;
         case 2: break;
-        case 4: EquipBomb::StopUsing(this); break;
+        case 4: EquipBomb::StopUsing(this, param1); break;
         case 5: break;
         case 6: EquipRope::StopUsing(this); break;
         case 8: EquipHammer::StopUsing(this); break;
@@ -68,16 +68,22 @@ void LinkStateItem::OnStateLeave(s32 param1) {
         pEVar1->vfunc_1c();
     }
 
-    if ((this->mEquipId <= 9 && this->mEquipId >= 9) || (this->mEquipId <= 1 && this->mEquipId >= -1) && (this->mEquipId != -1 && this->mEquipId != 0 && this->mEquipId != 1)) {
-        if (this->mEquipId == 10) this->EquipItem_vfunc_28();
-    }
-    else {
-        this->EquipItem_vfunc_28();
-
-        if (param1 != 4 && param1 != 2) {
-            pLVar2 = this->GetLinkStateMove();
-            pLVar2->mUnk_14 = true;
-        }
+    switch (this->mEquipId) {
+        case -1:
+        case 0:
+            break;
+        case 1:
+            break;
+        case 9:
+        case 10:
+            this->EquipItem_vfunc_28();
+            break;
+        default:
+            this->EquipItem_vfunc_28();
+            if (param1 != 4 && param1 != 2) {
+                pLVar2 = this->GetLinkStateMove();
+                pLVar2->mUnk_14 = true;
+            }
     }
 
     this->mNextEquip = 0xffffffff;
