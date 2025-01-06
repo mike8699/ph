@@ -33,7 +33,13 @@ bool AdventureFlags::func_ov00_02097bbc() {}
 bool AdventureFlags::func_ov00_02097bcc() {}
 bool AdventureFlags::func_ov00_02097bcc(s32 param2) {}
 s32 AdventureFlags::func_ov00_02097c08() {}
-bool AdventureFlags::Get_FlagsUnk_30_Flag(int index) {}
+
+bool AdventureFlags::Get_FlagsUnk_30_Flag(int index) {
+    unk32 unk30 = this->Get_FlagsUnk_30(index);
+
+    return this->Get(unk30);
+}
+
 unk8 AdventureFlags::Get_FlagsUnk_49(int index) {}
 unk8 AdventureFlags::Get_FlagsUnk_48(int index) {}
 unk8 AdventureFlags::Get_FlagsUnk_4a(int index) {}
