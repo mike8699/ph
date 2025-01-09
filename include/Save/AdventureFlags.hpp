@@ -101,9 +101,9 @@ public:
     bool Get_FlagsUnk_30_Flag(s32 index);
     u8 Get_FlagsUnk_49(s32 index);
     u8 Get_FlagsUnk_48(s32 index);
-    unk8 Get_FlagsUnk_4a(s32 index);
-    unk16 Get_FlagsUnk_42(s32 index);
-    unk16 Get_FlagsUnk_40(s32 index);
+    u8 Get_FlagsUnk_4a(s32 index);
+    u16 Get_FlagsUnk_42(s32 index);
+    u16 Get_FlagsUnk_40(s32 index);
     unk32 Get_FlagsUnk_38(s32 index);
     unk32 Get_FlagsUnk_34(s32 index);
     unk32 Get_FlagsUnk_44(s32 index);

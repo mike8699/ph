@@ -2,8 +2,16 @@
 
 extern void func_ov000_020980f8(CutsceneHandler *cutsceneHandler);
 extern unk32 func_ov000_020980fc(CutsceneHandler *cutsceneHandler);
+extern u8 data_ov000_020e310c[];
+extern u8 data_ov000_020e313c[];
+extern u8 data_ov000_020e3140[];
+extern u8 data_ov000_020e3144[];
+extern u8 data_ov000_020e314c[];
+extern u8 data_ov000_020e314e[];
+extern u8 data_ov000_020e3150[];
 extern u8 data_ov000_020e3154[];
 extern u8 data_ov000_020e3155[];
+extern u8 data_ov000_020e3156[];
 
 bool AdventureFlags::Exists() {
     return gAdventureFlags != NULL;
@@ -50,16 +58,41 @@ u8 AdventureFlags::Get_FlagsUnk_48(s32 index) {
     return data_ov000_020e3154[index * 0x4C];
 }
 
-unk8 AdventureFlags::Get_FlagsUnk_4a(s32 index) {}
-unk16 AdventureFlags::Get_FlagsUnk_42(s32 index) {}
-unk16 AdventureFlags::Get_FlagsUnk_40(s32 index) {}
-unk32 AdventureFlags::Get_FlagsUnk_38(s32 index) {}
-unk32 AdventureFlags::Get_FlagsUnk_34(s32 index) {}
-unk32 AdventureFlags::Get_FlagsUnk_44(s32 index) {}
-unk32 AdventureFlags::Get_FlagsUnk_30(s32 index) {}
+u8 AdventureFlags::Get_FlagsUnk_4a(s32 index) {
+    return data_ov000_020e3156[index * 0x4C];
+}
+
+u16 AdventureFlags::Get_FlagsUnk_42(s32 index) {
+    return *(u16 *) (data_ov000_020e314e + index * 0x4C);
+}
+
+u16 AdventureFlags::Get_FlagsUnk_40(s32 index) {
+    return *(unk16 *) (data_ov000_020e314c + index * 0x4C);
+}
+
+unk32 AdventureFlags::Get_FlagsUnk_38(s32 index) {
+    return *(unk32 *) (data_ov000_020e3144 + index * 0x4C);
+}
+
+unk32 AdventureFlags::Get_FlagsUnk_34(s32 index) {
+    return *(unk32 *) (data_ov000_020e3140 + index * 0x4C);
+}
+
+unk32 AdventureFlags::Get_FlagsUnk_44(s32 index) {
+    return *(unk32 *) (data_ov000_020e3150 + index * 0x4C);
+}
+
+unk32 AdventureFlags::Get_FlagsUnk_30(s32 index) {
+    return *(unk32 *) (data_ov000_020e313c + index * 0x4C);
+}
+
 bool AdventureFlags::Get_FlagsUnk_00(s32 index, FlagsUnk2 *result) {}
 bool AdventureFlags::Get_FlagsUnk_18(s32 index, FlagsUnk2 *result) {}
-FlagsUnk *AdventureFlags::Get_FlagsUnk(s32 index) {}
+
+FlagsUnk *AdventureFlags::Get_FlagsUnk(s32 index) {
+    return (FlagsUnk *) (data_ov000_020e310c + index * 0x4C);
+}
+
 bool AdventureFlags::func_ov00_02097e6c() {}
 bool AdventureFlags::func_ov00_02097e7c() {}
 bool AdventureFlags::func_ov00_02097ea4() {}
