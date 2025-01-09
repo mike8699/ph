@@ -111,7 +111,17 @@ bool AdventureFlags::func_ov00_02097e7c() {
     return false;
 }
 
-bool AdventureFlags::func_ov00_02097ea4() {}
+bool AdventureFlags::func_ov00_02097ea4() {
+    bool bVar1;
+
+    bVar1 = this->func_ov00_02097e6c();
+    if (bVar1) {
+        bVar1 = this->mCutsceneHandler->SkipCutscene(1);
+        return bVar1;
+    }
+
+    return false;
+}
 unk32 AdventureFlags::func_ov00_02097ecc() {}
 void *AdventureFlags::func_ov00_02097f8c() {}
 void *AdventureFlags::func_ov00_02097fac() {}
