@@ -36,7 +36,7 @@ bool AdventureFlags::func_ov00_02097bcc() {}
 bool AdventureFlags::func_ov00_02097bcc(s32 param2) {}
 s32 AdventureFlags::func_ov00_02097c08() {}
 
-bool AdventureFlags::Get_FlagsUnk_30_Flag(int index) {
+bool AdventureFlags::Get_FlagsUnk_30_Flag(s32 index) {
     unk32 unk30 = this->Get_FlagsUnk_30(index);
 
     return this->Get(unk30);
@@ -50,16 +50,16 @@ u8 AdventureFlags::Get_FlagsUnk_48(s32 index) {
     return data_ov000_020e3154[index * 0x4C];
 }
 
-unk8 AdventureFlags::Get_FlagsUnk_4a(int index) {}
-unk16 AdventureFlags::Get_FlagsUnk_42(int index) {}
-unk16 AdventureFlags::Get_FlagsUnk_40(int index) {}
-unk32 AdventureFlags::Get_FlagsUnk_38(int index) {}
-unk32 AdventureFlags::Get_FlagsUnk_34(int index) {}
-unk32 AdventureFlags::Get_FlagsUnk_44(int index) {}
-unk32 AdventureFlags::Get_FlagsUnk_30(int index) {}
-bool AdventureFlags::Get_FlagsUnk_00(int index, FlagsUnk2 *result) {}
-bool AdventureFlags::Get_FlagsUnk_18(int index, FlagsUnk2 *result) {}
-FlagsUnk *AdventureFlags::Get_FlagsUnk(int index) {}
+unk8 AdventureFlags::Get_FlagsUnk_4a(s32 index) {}
+unk16 AdventureFlags::Get_FlagsUnk_42(s32 index) {}
+unk16 AdventureFlags::Get_FlagsUnk_40(s32 index) {}
+unk32 AdventureFlags::Get_FlagsUnk_38(s32 index) {}
+unk32 AdventureFlags::Get_FlagsUnk_34(s32 index) {}
+unk32 AdventureFlags::Get_FlagsUnk_44(s32 index) {}
+unk32 AdventureFlags::Get_FlagsUnk_30(s32 index) {}
+bool AdventureFlags::Get_FlagsUnk_00(s32 index, FlagsUnk2 *result) {}
+bool AdventureFlags::Get_FlagsUnk_18(s32 index, FlagsUnk2 *result) {}
+FlagsUnk *AdventureFlags::Get_FlagsUnk(s32 index) {}
 bool AdventureFlags::func_ov00_02097e6c() {}
 bool AdventureFlags::func_ov00_02097e7c() {}
 bool AdventureFlags::func_ov00_02097ea4() {}
