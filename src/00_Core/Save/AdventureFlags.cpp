@@ -2,6 +2,7 @@
 
 extern void func_ov000_020980f8(CutsceneHandler *cutsceneHandler);
 extern unk32 func_ov000_020980fc(CutsceneHandler *cutsceneHandler);
+extern bool func_ov000_02098114(CutsceneHandler *cutsceneHandler);
 extern u8 data_ov000_020e310c[];
 extern u8 data_ov000_020e313c[];
 extern u8 data_ov000_020e3140[];
@@ -93,7 +94,10 @@ FlagsUnk *AdventureFlags::Get_FlagsUnk(s32 index) {
     return (FlagsUnk *) (data_ov000_020e310c + index * 0x4C);
 }
 
-bool AdventureFlags::func_ov00_02097e6c() {}
+bool AdventureFlags::func_ov00_02097e6c() {
+    return func_ov000_02098114(this->mCutsceneHandler);
+}
+
 bool AdventureFlags::func_ov00_02097e7c() {}
 bool AdventureFlags::func_ov00_02097ea4() {}
 unk32 AdventureFlags::func_ov00_02097ecc() {}
