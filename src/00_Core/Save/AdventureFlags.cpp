@@ -2,6 +2,7 @@
 
 extern void func_ov000_020980f8(CutsceneHandler *cutsceneHandler);
 extern unk32 func_ov000_020980fc(CutsceneHandler *cutsceneHandler);
+extern u8 data_ov000_020e3155[];
 
 bool AdventureFlags::Exists() {
     return gAdventureFlags != NULL;
@@ -40,7 +41,10 @@ bool AdventureFlags::Get_FlagsUnk_30_Flag(int index) {
     return this->Get(unk30);
 }
 
-unk8 AdventureFlags::Get_FlagsUnk_49(int index) {}
+u8 AdventureFlags::Get_FlagsUnk_49(s32 index) {
+    return data_ov000_020e3155[index * 0x4C];
+}
+
 unk8 AdventureFlags::Get_FlagsUnk_48(int index) {}
 unk8 AdventureFlags::Get_FlagsUnk_4a(int index) {}
 unk16 AdventureFlags::Get_FlagsUnk_42(int index) {}

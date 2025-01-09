@@ -99,7 +99,7 @@ public:
     bool func_ov00_02097bcc(s32 param2);
     s32 func_ov00_02097c08();
     bool Get_FlagsUnk_30_Flag(int index);
-    unk8 Get_FlagsUnk_49(int index);
+    u8 Get_FlagsUnk_49(s32 index);
     unk8 Get_FlagsUnk_48(int index);
     unk8 Get_FlagsUnk_4a(int index);
     unk16 Get_FlagsUnk_42(int index);
