@@ -1,4 +1,5 @@
 #include "Save/AdventureFlags.hpp"
+#include "Cutscene/CutsceneHandler.hpp"
 
 extern void func_ov000_020980f8(CutsceneHandler *cutsceneHandler);
 extern unk32 func_ov000_020980fc(CutsceneHandler *cutsceneHandler);
@@ -98,7 +99,18 @@ bool AdventureFlags::func_ov00_02097e6c() {
     return func_ov000_02098114(this->mCutsceneHandler);
 }
 
-bool AdventureFlags::func_ov00_02097e7c() {}
+bool AdventureFlags::func_ov00_02097e7c() {
+    bool bVar1;
+
+    bVar1 = this->func_ov00_02097e6c();
+    if (bVar1) {
+        bVar1 = this->mCutsceneHandler->SkipCutscene(0);
+        return bVar1;
+    }
+
+    return false;
+}
+
 bool AdventureFlags::func_ov00_02097ea4() {}
 unk32 AdventureFlags::func_ov00_02097ecc() {}
 void *AdventureFlags::func_ov00_02097f8c() {}
