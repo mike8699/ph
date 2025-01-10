@@ -4,6 +4,7 @@
 extern void func_ov000_020980f8(CutsceneHandler *cutsceneHandler);
 extern unk32 func_ov000_020980fc(CutsceneHandler *cutsceneHandler);
 extern bool func_ov000_02098114(CutsceneHandler *cutsceneHandler);
+extern s32 *func_ov040_021834cc(s32 param1);
 extern u8 data_ov000_020e310c[];
 extern u8 data_ov000_020e313c[];
 extern u8 data_ov000_020e3140[];
@@ -122,8 +123,22 @@ bool AdventureFlags::func_ov00_02097ea4() {
 
     return false;
 }
+
 unk32 AdventureFlags::func_ov00_02097ecc() {}
-void *AdventureFlags::func_ov00_02097f8c() {}
+
+// NONMATCHING: regalloc issues
+s32 *AdventureFlags::func_ov00_02097f8c() {
+    int *piVar1;
+
+    if (*(int *) (this->mCutsceneHandler + 0x80) == NULL) {
+        piVar1 = NULL;
+        return piVar1;
+    }
+
+    piVar1 = func_ov040_021834cc((s32) this);
+    return piVar1;
+}
+
 void *AdventureFlags::func_ov00_02097fac() {}
 void *AdventureFlags::func_ov00_02097fd0() {}
 void AdventureFlags::func_ov00_02097ff4(bool param1, bool param2) {}

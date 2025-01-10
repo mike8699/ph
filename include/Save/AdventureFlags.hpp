@@ -115,7 +115,7 @@ public:
     bool func_ov00_02097e7c();
     bool func_ov00_02097ea4();
     static unk32 func_ov00_02097ecc();
-    void *func_ov00_02097f8c();
+    s32 *func_ov00_02097f8c();
     void *func_ov00_02097fac();
     void *func_ov00_02097fd0();
     void func_ov00_02097ff4(bool param1, bool param2);
