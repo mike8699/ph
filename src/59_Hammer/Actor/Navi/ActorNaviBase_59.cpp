@@ -29,9 +29,8 @@ ARM void ActorNavi::func_ov059_0219aa08(bool param1) {
     Vec3p VStack_24;
 
     if (this->mUnk_3c0 != 0) {
-        VStack_24.x = this->mPos.x;
-        VStack_24.y = this->mPos.y + 0x333; // FLOAT_TO_Q20(0.2)?
-        VStack_24.z = this->mPos.z;
+        VStack_24 = this->mPos;
+        VStack_24.y += 0x333;
 
         uVar3 = this->mUnk_340 - 0x4000; // FLOAT_TO_Q20(12.0)?
         Mat3p_InitYRotation(&MStack_48, SIN(uVar3), COS(uVar3));
