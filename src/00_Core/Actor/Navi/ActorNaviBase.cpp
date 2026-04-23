@@ -266,8 +266,111 @@ ARM void ActorNaviBase::func_ov000_020b8c98(unk32 param1, unk32 param2, unk32 pa
     Lerp(&tmp.z, mOffsetPos.z, param1, param2, param3);
     Vec3p_Sub(&tmp, &mPos, &mVel);
 }
+extern "C" void func_0202d95c(Vec3p *v);
 
-ARM void ActorNaviBase::vfunc_d4() {}
+ARM void ActorNaviBase::vfunc_d4() {
+    Vec3p sp8;
+    switch (mUnk_130) {
+        case 1:
+        case 2: {
+            s32 var_r5 = 0x19a;
+            s32 var_r6 = 0x31;
+            s32 var_r7 = 0x11F;
+            if (mUnk_130 == 2) {
+                var_r5 = 0x23D;
+                var_r6 = 0x6A;
+                var_r7 = 0x333;
+            }
+            Vec3p_Sub(&mOffsetPos, &mPos, &sp8);
+            sp8.x = MUL_Q20(sp8.x, var_r5);
+            sp8.y = MUL_Q20(sp8.y, var_r5);
+            sp8.z = MUL_Q20(sp8.z, var_r5);
+            func_0202b4e4(&mVel, &sp8, var_r7, 0, 0x7FFFFFFF);
+            s16 curAngle = (s16) FX_Atan2Idx(mVel.x, mVel.z);
+            if (var_r6 <= 0) {
+                var_r6 = 0;
+            } else {
+                Random *r       = &gRandom;
+                r->mRandomValue = r->mAddend + r->mFactor * r->mRandomValue;
+                if (var_r6 != 0) {
+                    u32 hi = (u32) (*(volatile u64 *) &r->mRandomValue >> 32);
+                    var_r6 = (s32) (((u64) hi * (u32) var_r6) >> 32);
+                } else {
+                    var_r6 = 0;
+                }
+            }
+            if ((s16) ((s16) FX_Atan2Idx(sp8.x, sp8.z) - curAngle) > 0) {
+                s16 rotAngle = curAngle + 0x1555;
+                mVel.x += MUL_Q20(SIN((u16) rotAngle), var_r6);
+                mVel.z += MUL_Q20(COS((u16) rotAngle), var_r6);
+            } else {
+                s16 rotAngle = curAngle + (-0x1555);
+                mVel.x += MUL_Q20(SIN((u16) rotAngle), var_r6);
+                mVel.z += MUL_Q20(COS((u16) rotAngle), var_r6);
+            }
+            if (Vec3p_Length(&mVel) <= 0x4cd) {
+                return;
+            }
+            func_0202d95c(&mVel);
+            return;
+        }
+        case 4:
+            func_ov000_020b8c50(0x3000);
+            return;
+        case 8: {
+            s32 sp4 = mPos.y;
+            switch ((s16) mUnk_28a) {
+                case 1: {
+                    s32 sinVal = SIN((u16) (mActiveFrames * 0x1555));
+                    s32 yDelta = (mOffsetPos.y + MUL_Q20(sinVal, 0x266)) - mPos.y;
+                    mVel.x     = 0;
+                    mVel.y     = yDelta;
+                    mVel.z     = 0;
+                    break;
+                }
+                case 2: {
+                    Lerp(&sp4, mOffsetPos.y + (-0x4cd), 0x19a, 0, 0x7fffffff);
+                    s32 yDelta = sp4 - mPos.y;
+                    mVel.x     = 0;
+                    mVel.y     = yDelta;
+                    mVel.z     = 0;
+                    break;
+                }
+                case 3: {
+                    s32 sinVal = SIN((u16) (mActiveFrames * 0xaab));
+                    s32 yDelta = (mOffsetPos.y + MUL_Q20(sinVal, 0x333)) - mPos.y;
+                    mVel.x     = 0;
+                    mVel.y     = yDelta;
+                    mVel.z     = 0;
+                    break;
+                }
+                default:
+                    func_ov000_020b8c98(0x400, 0x200, 0x1000);
+                    break;
+            }
+            return;
+        }
+        case 5:
+            func_ov000_020b8c50(0xCD);
+            return;
+        case 9:
+            func_ov000_020b8c50(0x333);
+            return;
+        case 3:
+        case 7:
+            func_ov000_020b8c98(0x800, 0x200, 0x2000);
+            return;
+        case 6:
+            func_ov000_020b8c98(0x400, 0x1000, 0x2000);
+            return;
+        default:
+        case 0:
+            mVel.x = 0;
+            mVel.y = 0;
+            mVel.z = 0;
+            return;
+    }
+}
 ARM void ActorNaviBase::SetActive(unk32 active) {
     if (mUnk_130 == 0 && active != 0) {
         u32 i;
