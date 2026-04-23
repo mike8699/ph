@@ -320,7 +320,17 @@ ARM void ActorNaviBase::func_ov000_020b9fe8() {
     }
     mUnk_168.SetTransform(&scale, &gDefaultMatrix, &pos);
 }
-ARM void ActorNaviBase::vfunc_20(bool param1) {}
+ARM void ActorNaviBase::vfunc_20(bool param1) {
+    u8 flag = param1 ? mUnk_0a4.mUnk_01 : mUnk_0a4.mUnk_00;
+    if (flag == 0) {
+        return;
+    }
+    if (gPlayerLink->func_ov000_020bcefc()) {
+        return;
+    }
+    data_ov000_020e9c88.func_ov000_0207b89c(param1, &mPos, &_ZN13ActorNaviBase19func_ov000_020b9fdcEv, this);
+    func_ov005_02102c2c(&data_ov000_020e9370[0], 0, &mPos, 0x400, 0x400, 0, 0x10, 0, 0, 0);
+}
 ARM void ActorNaviBase::vfunc_10(u32 param1) {}
 
 unk32 ActorNaviBase::func_ov000_020ba204(Vec3p *param1, Vec3p *param2, s32 param3) {}
