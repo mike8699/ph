@@ -99,16 +99,14 @@ ARM void ActorNavi::SetActive(unk32 active) {
     return ActorNaviBase::SetActive(active);
 }
 
-ARM void ActorNavi::vfunc_e0() {
-    void (*var_r1)();
-    s32 temp_r0;
-    void **temp_r0_2;
+typedef void (ActorNavi::*ActorNaviPMF)();
 
-    if (mUnk_3b8.mUnk_00 != NULL) {
-        if (mUnk_130 != 0) {
+ARM void ActorNavi::vfunc_e0() {
+    if (mUnk_3b8.mUnk_00 != 0) {
+        if (mUnk_130 == 0) {
             this->SetActive(1);
         } else {
-            (*(void (**)())((*(unk32 *) ((s32) this + (mUnk_3b8.mUnk_04 >> 1))) + mUnk_3b8.mUnk_00))();
+            (this->*(*(ActorNaviPMF *) &mUnk_3b8))();
             return;
         }
     }
