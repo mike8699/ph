@@ -637,7 +637,114 @@ ARM void ActorNaviBase::func_ov000_020ba53c() {
     func_ov000_020ba414(&tmp);
 }
 bool ActorNaviBase::vfunc_78() {}
-ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, s32 param3) {}
+ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, s32 param3) {
+    PlayerLinkBase *plink = gPlayerLink;
+    if (plink == NULL || !plink->func_ov000_020bd318()) {
+        return false;
+    }
+    {
+        // Local vtable shim: PlayerLinkBase::vfunc_7c is declared void() in the
+        // public header, but at this call site mwcc emits a two-arg call. The
+        // actual vtable slot (0x7c = index 31) is invoked with (s32, s32) via
+        // this pun. See PlayerLink::vfunc_7c (0x34 bytes) for the real impl.
+        struct Link7c {
+            virtual void _0();
+            virtual void _1();
+            virtual void _2();
+            virtual void _3();
+            virtual void _4();
+            virtual void _5();
+            virtual void _6();
+            virtual void _7();
+            virtual void _8();
+            virtual void _9();
+            virtual void _10();
+            virtual void _11();
+            virtual void _12();
+            virtual void _13();
+            virtual void _14();
+            virtual void _15();
+            virtual void _16();
+            virtual void _17();
+            virtual void _18();
+            virtual void _19();
+            virtual void _20();
+            virtual void _21();
+            virtual void _22();
+            virtual void _23();
+            virtual void _24();
+            virtual void _25();
+            virtual void _26();
+            virtual void _27();
+            virtual void _28();
+            virtual void _29();
+            virtual void _30();
+            virtual void vfunc_7c(s32, s32);
+        };
+        ((Link7c *) plink)->vfunc_7c(0, 1);
+    }
+    if (mUnk_130 == 8) {
+        return false;
+    }
+    if (!gAdventureFlags->func_ov00_02097bbc() && !gMessageManager.func_020368f4(&mUnk_224)) {
+        return false;
+    }
+    if (!gMessageManager.func_02036ce4((UnkStruct_020386d8 *) &mUnk_224, param1)) {
+        return false;
+    }
+    {
+        s32 b8res = (s32) this->vfunc_b8();
+        if (b8res > 0) {
+            data_ov000_020eec9c.func_ov000_020d77e4(b8res);
+        }
+    }
+    Vec3p tgt = gPlayerPos;
+    tgt.y += 0xCCD;
+    if (param3 == 0) {
+        if (data_027e0d38->mUnk_0c.func_ov000_020a5e9c() == 0x31) {
+            s32 rotBase = data_027e0f64->mUnk_4->mUnk_226 + 0x2000;
+            u16 angle   = (u16) (s16) rotBase;
+            tgt.x += MUL_Q20(SIN(angle), 0x1000);
+            tgt.z += MUL_Q20(COS(angle), 0x1000);
+            Vec3p rayPos;
+            rayPos.x   = tgt.x;
+            rayPos.y   = tgt.y;
+            rayPos.z   = tgt.z;
+            s32 mapY = gMapManager->MapData_vfunc_68(&rayPos, 1);
+            s32 below = (*(volatile s32 *) &tgt.y < mapY) ? 1 : 0;
+            if (below != 0) {
+                tgt.x -= MUL_Q20(SIN((u16) rotBase), 0x2000);
+            }
+        } else {
+            u16 angle = (u16) (s16) (*(s16 *) &mAngle + 0x2000);
+            tgt.x += MUL_Q20(SIN(angle), 0x1000);
+            tgt.z += MUL_Q20(COS(angle), 0x1000);
+            Vec3p rayPos;
+            rayPos.x = tgt.x;
+            rayPos.y = tgt.y;
+            rayPos.z = tgt.z;
+            s32 mapY = gMapManager->MapData_vfunc_68(&rayPos, 1);
+            s32 below = (*(volatile s32 *) &tgt.y < mapY) ? 1 : 0;
+            if (below != 0) {
+                tgt.x -= MUL_Q20(SIN((u16) (*(s16 *) &mAngle + 0x2000)), 0x2000);
+            }
+        }
+        mOffsetPos.x = tgt.x;
+        mOffsetPos.y = tgt.y;
+        mOffsetPos.z = tgt.z;
+    } else {
+        mOffsetPos.x = tgt.x;
+        mOffsetPos.y = tgt.y;
+        mOffsetPos.z = tgt.z;
+        func_0202b2f8(&mOffsetPos, param3, 0x1000);
+    }
+    mUnk_28c = 1;
+    this->SetUnk_11c(1);
+    UnkStruct_02037750::GetLinkStateInteract()->Grab(&mRef);
+    *(u8 *) &mUnk_224.mUnk_54 = param2;
+    this->SetActive(8);
+    return true;
+}
 void ActorNaviBase::vfunc_74() {}
 ARM void ActorNaviBase::func_ov000_020baca8(Vec3p *param1, unk32 param2) {
     if (*(u8 *) &mUnk_11c != 0 || mUnk_291 != 0) {
