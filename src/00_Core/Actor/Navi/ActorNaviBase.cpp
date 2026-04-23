@@ -331,7 +331,16 @@ ARM void ActorNaviBase::vfunc_20(bool param1) {
     data_ov000_020e9c88.func_ov000_0207b89c(param1, &mPos, &_ZN13ActorNaviBase19func_ov000_020b9fdcEv, this);
     func_ov005_02102c2c(&data_ov000_020e9370[0], 0, &mPos, 0x400, 0x400, 0, 0x10, 0, 0, 0);
 }
-ARM void ActorNaviBase::vfunc_10(u32 param1) {}
+ARM void ActorNaviBase::vfunc_10(u32 param1) {
+    if (mUnk_130 == 0 && gItemManager->GetEquippedFairy() == GetFairyId()) {
+        this->SetActive(1);
+        return;
+    }
+    this->TeleportAboveLink();
+    if (this->vfunc_cc(NULL)) {
+        this->SetActive(0);
+    }
+}
 
 unk32 ActorNaviBase::func_ov000_020ba204(Vec3p *param1, Vec3p *param2, s32 param3) {}
 ARM unk32 func_ov000_020ba350(unk32 param1) {}
