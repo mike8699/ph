@@ -645,7 +645,97 @@ ARM void ActorNaviBase::vfunc_14(u32 param1) {
     this->vfunc_e8();
 }
 
-ARM void ActorNaviBase::vfunc_18(u32 param1) {}
+ARM void ActorNaviBase::vfunc_18(u32 param1) {
+    if (!this->func_ov00_020c313c(param1)) {
+        return;
+    }
+    if (mUnk_28d != 0) {
+        ActorNaviBase_Unk1 *end;
+        ActorNaviBase_Unk1 *p;
+        p   = &mUnk_218[0];
+        end = &mUnk_218[0] + 2;
+        for (; p != end; p++) {
+            NaviUnk1Inner *inst = (NaviUnk1Inner *) p->mUnk_0;
+            if (inst != NULL) {
+                inst->mUnk_24 |= 8;
+            }
+        }
+        return;
+    }
+    if ((mUnk_224.mUnk_18 & ~0xFFFF) != 0x01000000) {
+        mUnk_224.vfunc_10();
+    }
+    if (mVisible) {
+        s32 newState;
+        NaviUnk1Inner *inst0;
+        NaviUnk1Inner *inst1;
+        this->vfunc_d0();
+        this->vfunc_d4();
+        Vec3p_Add(&mPos, &mVel, &mPos);
+        this->vfunc_d8();
+        this->IncreaseActiveFrames();
+        this->vfunc_e4();
+        if (mUnk_130 != 0) {
+            if (this->vfunc_cc(&newState) && newState != mUnk_130) {
+                this->SetActive(newState);
+            }
+        }
+        this->vfunc_e8();
+        if (mUnk_220 == 0) {
+            Vec3p sp4 = mPos;
+            sp4.y += 0x333;
+            inst0 = (NaviUnk1Inner *) mUnk_218[0].mUnk_0;
+            if (inst0 != NULL) {
+                inst0->mUnk_28 = sp4.x + (*inst0->mUnk_20)->vec.x;
+                inst0->mUnk_2c = sp4.y + (*inst0->mUnk_20)->vec.y;
+                inst0->mUnk_30 = sp4.z + (*inst0->mUnk_20)->vec.z;
+            }
+            inst0 = (NaviUnk1Inner *) mUnk_218[0].mUnk_0;
+            if (inst0 != NULL) {
+                inst0->mUnk_24 &= ~2;
+            }
+        } else {
+            inst0 = (NaviUnk1Inner *) mUnk_218[0].mUnk_0;
+            if (inst0 != NULL) {
+                inst0->mUnk_24 |= 2;
+            }
+        }
+        inst1 = (NaviUnk1Inner *) mUnk_218[1].mUnk_0;
+        if (inst1 != NULL) {
+            inst1->mUnk_24 |= 2;
+        }
+    } else {
+        this->vfunc_e4();
+    }
+    mUnk_220 = (mUnk_220 + 1) % 3;
+    if (gPlayerLink->func_ov000_020bcefc() || !gActorManager->mUnk_18) {
+        ActorNaviBase_Unk1 *end;
+        ActorNaviBase_Unk1 *p;
+        p   = &mUnk_218[0];
+        end = &mUnk_218[0] + 2;
+        for (; p != end; p++) {
+            NaviUnk1Inner *inst = (NaviUnk1Inner *) p->mUnk_0;
+            if (inst != NULL) {
+                inst->mUnk_24 |= 8;
+            }
+        }
+        return;
+    }
+    {
+        ActorNaviBase_Unk1 *p = &mUnk_218[0];
+        u8 visible            = mVisible;
+        if (p != &mUnk_218[0] + 2) {
+            u32 bitval = (visible == 0) ? 1 : 0;
+            do {
+                NaviUnk1InnerBF *inst = (NaviUnk1InnerBF *) p->mUnk_0;
+                if (inst != NULL) {
+                    inst->bit3 = bitval;
+                }
+                p++;
+            } while (p != &mUnk_218[0] + 2);
+        }
+    }
+}
 ARM void ActorNaviBase::func_ov000_020b9fdc() {
     this->func_ov000_020b9fe8();
 }
