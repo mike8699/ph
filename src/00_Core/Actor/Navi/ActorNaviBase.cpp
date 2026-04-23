@@ -145,7 +145,111 @@ ARM void ActorNaviBase::vfunc_d0() {
 ARM void ActorNaviBase::vfunc_d8() {}
 ARM void ActorNaviBase::vfunc_ec() {}
 
-ARM bool ActorNaviBase::vfunc_cc(unk32 *param1) {}
+ARM bool ActorNaviBase::vfunc_cc(unk32 *param1) {
+    if (param1 != NULL) {
+        *param1 = 0;
+    }
+    if (mUnk_290 != 0) {
+        return true;
+    }
+    if (gGame.mModeId == GameModeId_Battle && func_ov000_02079e3c()) {
+        return true;
+    }
+    if ((s16) gPlayer->mHealth <= 0) {
+        return true;
+    }
+    s32 val = data_027e0f64->mUnk_4->mUnk_15c;
+    switch (val) {
+        case 10:
+        case 0x44:
+        case 0x45:
+        case 0x4B:
+        case 0x4C:
+            return true;
+    }
+    if (!gAdventureFlags->func_ov00_02097738() && !gAdventureFlags->func_ov00_02097750()) {
+        if (*(u8 *) &mUnk_11c != 0) {
+            return false;
+        }
+        s32 hammer = LinkStateBase::GetLinkItemState()->IsHammerEquipped();
+        if (hammer != -1) {
+            goto set_true;
+        }
+        if (hammer != -1) {
+            goto ret_false;
+        }
+        if (gItemManager->GetEquippedFairy() == GetFairyId()) {
+            goto ret_false;
+        }
+    set_true:
+        if (param1 != NULL) {
+            *param1 = 6;
+        }
+        return true;
+    }
+    if (data_ov000_020e8b08 != NULL) {
+        UnkStruct_ov000_020e8b08 *const ptr = data_ov000_020e8b08;
+        s32 j;
+        s32 i      = 0;
+        s32 myId   = mRef.id;
+        s32 found;
+        do {
+            if (ptr->mRefs[i].id == myId) {
+                found = 1;
+                goto after_first;
+            }
+            i++;
+        } while (i < 4);
+        found = 0;
+    after_first:
+        if (found != 0 || mUnk_28e != 0) {
+            return false;
+        }
+        j = 0;
+        do {
+            if (j != GetFairyId()) {
+                s32 k;
+                s32 fairyId = gItemManager->GetFairy(j)->mRef.id;
+                s32 fmatch;
+                k = 0;
+                do {
+                    if (ptr->mRefs[k].id == fairyId) {
+                        fmatch = 1;
+                        goto check_match;
+                    }
+                    k++;
+                } while (k < 4);
+                fmatch = 0;
+            check_match:
+                if (fmatch != 0) {
+                    if (param1 != NULL) {
+                        *param1 = 6;
+                    }
+                    return true;
+                }
+            }
+            j++;
+        } while (j < FairyId_COUNT);
+    }
+    if (gItemManager->GetEquippedFairy() == GetFairyId()) {
+        if (GetFairyId() == FairyId_Courage) {
+            return false;
+        }
+        if (gItemManager->GetFairy(FairyId_Courage)->mUnk_28e != 0) {
+            if (param1 != NULL) {
+                *param1 = 6;
+            }
+            return true;
+        }
+        return false;
+    }
+    if (param1 != NULL) {
+        *param1 = 6;
+    }
+    return true;
+ret_false:
+    return false;
+}
 ARM void ActorNaviBase::func_ov000_020b8c50(unk32 param1) {
     Vec3p tmp = mPos;
     func_0202b2e8(&tmp, &mOffsetPos, param1);
