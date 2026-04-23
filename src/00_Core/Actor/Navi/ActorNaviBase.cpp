@@ -889,8 +889,47 @@ ARM void ActorNaviBase::vfunc_10(u32 param1) {
         this->SetActive(0);
     }
 }
+extern "C" void *data_ov000_020e67b8[];
 
-unk32 ActorNaviBase::func_ov000_020ba204(Vec3p *param1, Vec3p *param2, s32 param3) {}
+struct ActorNaviBase_Unk_020ba204 {
+    /* 00 */ void **vtable;
+    /* 04 */ Vec3p mUnk_04;
+    /* 10 */ Vec3p *mUnk_10;
+    /* 14 */ Vec3p mUnk_14;
+    /* 20 */
+};
+
+unk32 ActorNaviBase::func_ov000_020ba204(Vec3p *param1, Vec3p *param2, s32 param3) {
+    if (param1->y < param3) {
+        ActorNaviBase_Unk_020ba204 local;
+        Vec3p copy;
+        Vec3p ax;
+
+        Vec3p_Axpy(param3 - param1->y, param2, param1, &local.mUnk_14);
+        local.vtable = data_ov000_020e67b8;
+        {
+            u32 *dst = (u32 *) &local.mUnk_04;
+            u32 *src = (u32 *) param1;
+            dst[0] = src[0];
+            dst[1] = src[1];
+            dst[2] = src[2];
+        }
+        local.mUnk_10 = param2;
+        UnkStruct out;
+        ax.x   = local.mUnk_14.x;
+        ax.y   = local.mUnk_14.y;
+        ax.z   = local.mUnk_14.z;
+        copy.x = param1->x;
+        copy.y = param1->y;
+        copy.z = param1->z;
+        gMapManager->func_01ffbf5c(&out, &copy, &ax, 0x333, this->mRef.id, 3,
+                                   (UnkStruct_ov000_020beba8 *) &local, 0);
+        unk32 result = this->vfunc_c0(&local.mUnk_04);
+        ((UnkStruct_ov000_020beba8 *) &local)->UnkStruct_ov000_020beba8::~UnkStruct_ov000_020beba8();
+        return result;
+    }
+    return this->vfunc_c0(param1);
+}
 ARM unk32 func_ov000_020ba350(unk32 param1) {
     ((UnkStruct_ov000_020beba8 *) param1)->UnkStruct_ov000_020beba8::~UnkStruct_ov000_020beba8();
     return param1;
