@@ -365,7 +365,13 @@ ARM void ActorNaviBase::func_ov000_020ba53c() {
 }
 bool ActorNaviBase::vfunc_78() {}
 ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, s32 param3) {}
-void ActorNaviBase::vfunc_74(ActorRef *ref) {}
+ARM void ActorNaviBase::vfunc_74(ActorRef *ref) {
+    if (ref->id == mRef.id) {
+        this->SetActive(8);
+        return;
+    }
+    mUnk_28a = 0;
+}
 ARM void ActorNaviBase::func_ov000_020baca8(Vec3p *param1, unk32 param2) {
     if (*(u8 *) &mUnk_11c != 0 || mUnk_291 != 0) {
         return;
