@@ -1,7 +1,6 @@
 #include "Actor/Navi/ActorNaviBase.hpp"
 #include "Actor/ActorRef.hpp"
 
-#include "Physics/Cylinder.hpp"
 #include "Actor/ActorManager.hpp"
 #include "Actor/FilterActorBase.hpp"
 #include "DTCM/UnkStruct_027e0e58.hpp"
@@ -11,6 +10,7 @@
 #include "Map/MapManager.hpp"
 #include "Map/TilePos.hpp"
 #include "Message/MessageManager.hpp"
+#include "Physics/Cylinder.hpp"
 #include "Player/LinkStateBase.hpp"
 #include "Player/LinkStateItem.hpp"
 #include "Player/PlayerBase.hpp"
@@ -42,7 +42,7 @@ extern "C" bool Lerp(s32 *pValue, s32 dest, s32 factor, unk32 param4, u32 step);
 extern "C" void Vec3p_RotateY(u32 angle, Vec3p *v);
 extern "C" void func_ov000_020c0e24(UnkStruct_ov000_020c0c08 *self, s32 param2);
 extern "C" void func_ov000_0207c1f8(UnkStruct_027e0e58 *self, ActorNaviBase_Unk1 *ref, u32 modelId, Vec3p *pos, s32 param5);
-extern "C" void func_ov000_020b7e6c(ActorNaviBase_Unk1 *ref);
+extern void func_ov000_020b7e6c(s32 *param1);
 extern "C" void *func_0201e544(void *self, const char *name);
 extern "C" void func_ov000_020c0cc8(UnkStruct_ov000_020c0c08 *self, void *param2, unk32 param3, unk32 param4);
 extern char *data_ov000_020e678c[];
@@ -283,7 +283,7 @@ ARM void ActorNaviBase::SetActive(unk32 active) {
             end      = mUnk_218 + 2;
             if (p != end) {
                 do {
-                    func_ov000_020b7e6c(p);
+                    func_ov000_020b7e6c((s32 *) &p->mUnk_0);
                     p++;
                 } while (p != end);
             }
@@ -379,15 +379,15 @@ ARM void ActorNaviBase::vfunc_e0() {
                         Vec3p pos;
                         s32 dist;
                     } mapArgs;
-                    mapArgs.pos.x                        = midX;
-                    mapArgs.pos.y                        = midY;
-                    mapArgs.pos.z                        = midZ;
-                    mapArgs.dist                         = dist;
+                    mapArgs.pos.x                       = midX;
+                    mapArgs.pos.y                       = midY;
+                    mapArgs.pos.z                       = midZ;
+                    mapArgs.dist                        = dist;
                     UnkStruct_ov000_020853fc *mapResult = MapManager::func_ov00_020853fc(gMapManager, &mapArgs.pos, &dist);
                     if (mapResult != NULL && mapResult->mUnk_12 != 1) {
-                        mOffsetPos.x = mapResult->mUnk_18.x;
-                        mOffsetPos.y = mapResult->mUnk_18.y;
-                        mOffsetPos.z = mapResult->mUnk_18.z;
+                        mOffsetPos.x                    = mapResult->mUnk_18.x;
+                        mOffsetPos.y                    = mapResult->mUnk_18.y;
+                        mOffsetPos.z                    = mapResult->mUnk_18.z;
                         UnkStruct_ov000_020e2f04 *shape = mapResult->vfunc_54();
                         s32 height;
                         if (shape == NULL) {
@@ -498,7 +498,97 @@ ARM void ActorNaviBase::vfunc_e8() {
 
 ARM void ActorNaviBase::vfunc_14(u32 param1) {}
 
-ARM void ActorNaviBase::vfunc_18(u32 param1) {}
+ARM void ActorNaviBase::vfunc_18(u32 param1) {
+    if (!this->func_ov00_020c313c(param1)) {
+        return;
+    }
+    if (mUnk_28d != 0) {
+        ActorNaviBase_Unk1 *end;
+        ActorNaviBase_Unk1 *p;
+        p   = &mUnk_218[0];
+        end = &mUnk_218[0] + 2;
+        for (; p != end; p++) {
+            UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
+            if (inst != NULL) {
+                inst->mUnk_24_3 = 1;
+            }
+        }
+        return;
+    }
+    if ((mUnk_224.mUnk_18 & ~0xffff) != 0x01000000) {
+        mUnk_224.vfunc_10();
+    }
+    if (mVisible) {
+        s32 newState;
+        UnkStruct_ov000_020b7d74_00 *inst0;
+        UnkStruct_ov000_020b7d74_00 *inst1;
+        this->vfunc_d0();
+        this->vfunc_d4();
+        Vec3p_Add(&mPos, &mVel, &mPos);
+        this->vfunc_d8();
+        this->IncreaseActiveFrames();
+        this->vfunc_e4();
+        if (mUnk_130 != 0) {
+            if (this->vfunc_cc(&newState) && newState != mUnk_130) {
+                this->SetActive(newState);
+            }
+        }
+        this->vfunc_e8();
+        if (mUnk_220 == 0) {
+            Vec3p pos = mPos;
+            pos.y += 0x333;
+            inst0 = mUnk_218[0].mUnk_0;
+            if (inst0 != NULL) {
+                inst0->mUnk_28.x = pos.x + (*inst0->mUnk_20)->mUnk_04.x;
+                inst0->mUnk_28.y = pos.y + (*inst0->mUnk_20)->mUnk_04.y;
+                inst0->mUnk_28.z = pos.z + (*inst0->mUnk_20)->mUnk_04.z;
+            }
+            inst0 = mUnk_218[0].mUnk_0;
+            if (inst0 != NULL) {
+                inst0->mUnk_24_1 = 0;
+            }
+        } else {
+            inst0 = mUnk_218[0].mUnk_0;
+            if (inst0 != NULL) {
+                inst0->mUnk_24_1 = 1;
+            }
+        }
+        inst1 = mUnk_218[1].mUnk_0;
+        if (inst1 != NULL) {
+            inst1->mUnk_24_1 = 1;
+        }
+    } else {
+        this->vfunc_e4();
+    }
+    mUnk_220 = (mUnk_220 + 1) % 3;
+    if (gPlayerLink->func_ov000_020bcefc() || !gActorManager->mUnk_18) {
+        ActorNaviBase_Unk1 *end;
+        ActorNaviBase_Unk1 *p;
+        p   = &mUnk_218[0];
+        end = &mUnk_218[0] + 2;
+        for (; p != end; p++) {
+            UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
+            if (inst != NULL) {
+                inst->mUnk_24_3 = 1;
+            }
+        }
+        return;
+    }
+    {
+        ActorNaviBase_Unk1 *p = &mUnk_218[0];
+        bool visible          = mVisible;
+        if (p != &mUnk_218[0] + 2) {
+            u32 hidden = !visible;
+            do {
+                UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
+                if (inst != NULL) {
+                    inst->mUnk_24_3 = hidden;
+                }
+                p++;
+            } while (p != &mUnk_218[0] + 2);
+        }
+    }
+}
 ARM static void func_ov000_020b9fdc(void *navi) {
     ((ActorNaviBase *) navi)->func_ov000_020b9fe8();
 }
