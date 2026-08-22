@@ -16,7 +16,8 @@ public:
     /* 48 */ void *mUnk_48;
     /* 4c */ unk32 mUnk_4c;
     /* 50 */ unk32 mUnk_50;
-    /* 54 */ unk32 mUnk_54;
+    /* 54 */ u8 mUnk_54;
+    /* 55 */ unk8 mUnk_55[0x3];
     /* 58 */ unk32 mUnk_58;
     /* 5c */
 
