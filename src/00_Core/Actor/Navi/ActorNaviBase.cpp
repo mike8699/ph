@@ -24,6 +24,7 @@
 #include "Unknown/UnkStruct_ov000_020b1d70.hpp"
 #include "Unknown/UnkStruct_ov000_020beba8.hpp"
 #include "Unknown/UnkStruct_ov000_020e2f04.hpp"
+#include "Unknown/UnkStruct_ov000_020e678c.hpp"
 #include "Unknown/UnkStruct_ov000_020e8b08.hpp"
 #include "Unknown/UnkStruct_ov000_020e9c88.hpp"
 
@@ -52,14 +53,17 @@ extern "C" void Vec3p_RotateY(u32 angle, Vec3p *v);
 extern "C" void func_ov000_020c0e24(UnkStruct_ov000_020c0c08 *self, s32 param2);
 extern "C" void func_ov000_0207c1f8(UnkStruct_027e0e58 *self, ActorNaviBase_Unk1 *ref, u32 modelId, Vec3p *pos, s32 param5);
 extern void func_ov000_020b7e6c(s32 *param1);
-extern "C" void *func_0201e544(void *self, const char *name);
 extern "C" void func_ov000_020c0cc8(UnkStruct_ov000_020c0c08 *self, void *param2, unk32 param3, unk32 param4);
-extern char *data_ov000_020e678c[];
 extern "C" void func_ov000_020b8830(ItemModel *model, u32 color1, u32 color2);
 extern "C" void func_02019534(void *model, unk32 materialIdx, unk32 color);
 extern "C" u32 func_ov000_020b3ec4(ActorNaviBase_Unk3 *unk);
-extern ItemModel *data_ov000_020ee1f8;
 extern Mat3p gDefaultMatrix;
+
+#pragma section sbss begin
+ItemModel *data_ov000_020ee1f8;
+#pragma section sbss end
+
+UnkStruct_ov000_020e678c data_ov000_020e678c = {{"anc", "bow", "hul", "can", "dco", "pdl", "fnl", "brg"}, NULL, 0, 0};
 
 static const u32 sFairyModelIds[FairyId_COUNT] = {0x24f, 0x251, 0x250};
 
@@ -69,8 +73,8 @@ struct ActorNaviBase_NameEntry {
 };
 static const ActorNaviBase_NameEntry sNaviNames[1] = {{"navi", 0}};
 
-extern Vec3p data_ov000_020dc83c;
-extern Vec3p data_ov000_020dc848;
+static const Vec3p data_ov000_020dc83c = {-0x800, 0xccd, 0x800};
+static const Vec3p data_ov000_020dc848 = {0x800, 0x1000, -0x333};
 
 ARM u16 ActorNaviBase::vfunc_c4() {
     if (mUnk_28d != 0) {
@@ -519,7 +523,7 @@ ARM void ActorNaviBase::vfunc_e0() {
     }
 }
 ARM void ActorNaviBase::func_ov000_020b9770(s32 param1) {
-    void *resource = func_0201e544(data_ov000_020e678c[8], sNaviNames[param1].name);
+    void *resource = func_0201e544(data_ov000_020e678c.mFile, sNaviNames[param1].name);
     func_ov000_020c0cc8(&mUnk_1d0, resource, 0, sNaviNames[param1].id);
     mUnk_168.vfunc_28();
     mUnk_168.vfunc_24(&mUnk_1d0);

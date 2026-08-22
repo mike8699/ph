@@ -3739,11 +3739,10 @@ data_ov000_020dc800 kind:data(any) addr:0x020dc800
 data_ov000_020dc808 kind:data(any) addr:0x020dc808
 data_ov000_020dc810 kind:data(any) addr:0x020dc810
 data_ov000_020dc816 kind:data(any) addr:0x020dc816
-data_ov000_020dc81c kind:data(any) addr:0x020dc81c
-data_ov000_020dc828 kind:data(any) addr:0x020dc828
-data_ov000_020dc838 kind:data(any) addr:0x020dc838
-data_ov000_020dc83c kind:data(any) addr:0x020dc83c
-data_ov000_020dc848 kind:data(any) addr:0x020dc848
+sFairyModelIds kind:data(any) addr:0x020dc81c local
+sNaviNames kind:data(any) addr:0x020dc828 local
+data_ov000_020dc83c kind:data(any) addr:0x020dc83c local
+data_ov000_020dc848 kind:data(any) addr:0x020dc848 local
 data_ov000_020dc858 kind:data(any) addr:0x020dc858
 data_ov000_020dc878 kind:data(any) addr:0x020dc878
 data_ov000_020dc884 kind:data(any) addr:0x020dc884
@@ -5023,7 +5022,6 @@ data_ov000_020e6780 kind:data(any) addr:0x020e6780
 data_ov000_020e6784 kind:data(any) addr:0x020e6784
 data_ov000_020e6788 kind:data(any) addr:0x020e6788
 data_ov000_020e678c kind:data(any) addr:0x020e678c
-data_ov000_020e67ac kind:data(any) addr:0x020e67ac
 data_ov000_020e67b8 kind:data(any) addr:0x020e67b8
 _ZTV15NaviFilterActor kind:data(any) addr:0x020e67d8
 _ZTV13ActorNaviBase kind:data(any) addr:0x020e67dc
