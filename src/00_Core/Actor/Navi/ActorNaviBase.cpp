@@ -1,13 +1,16 @@
 #include "Actor/Navi/ActorNaviBase.hpp"
 #include "Actor/ActorRef.hpp"
 
+#include "Physics/Cylinder.hpp"
+#include "Actor/ActorManager.hpp"
+#include "Actor/FilterActorBase.hpp"
 #include "DTCM/UnkStruct_027e0e58.hpp"
 #include "DTCM/UnkStruct_027e0f64.hpp"
 #include "Game/Game.hpp"
 #include "Item/ItemManager.hpp"
 #include "Map/MapManager.hpp"
 #include "Map/TilePos.hpp"
-#include "Physics/Cylinder.hpp"
+#include "Message/MessageManager.hpp"
 #include "Player/LinkStateBase.hpp"
 #include "Player/LinkStateItem.hpp"
 #include "Player/PlayerBase.hpp"
@@ -15,8 +18,20 @@
 #include "Save/AdventureFlags.hpp"
 #include "Unknown/UnkStruct_020e9360.hpp"
 #include "Unknown/UnkStruct_ov000_020beba8.hpp"
+#include "Unknown/UnkStruct_ov000_020e2f04.hpp"
 #include "Unknown/UnkStruct_ov000_020e8b08.hpp"
 #include "Unknown/UnkStruct_ov000_020e9c88.hpp"
+
+class NaviFilterActor : public FilterActorBase {
+public:
+    /* 00 (base) */
+    /* 04 */ Actor *mActor;
+    /* 08 */ q20 mDist;
+    /* 0c */ Vec3p mPos;
+    /* 18 */
+
+    /* 0 */ virtual bool Filter(Actor *actor) override;
+};
 
 extern "C" u16 func_ov000_020b8790(s32);
 extern "C" u16 func_ov000_020b87cc(s32);
@@ -309,7 +324,124 @@ ARM void ActorNaviBase::TeleportAboveLink() {
     mPrevPos.z = linkPos.z;
 }
 
-ARM void ActorNaviBase::vfunc_e0() {}
+ARM void ActorNaviBase::vfunc_e0() {
+    s32 newState;
+    if (mUnk_130 != 0) {
+        if (this->vfunc_cc(&newState) && newState != mUnk_130) {
+            this->SetActive(newState);
+            return;
+        }
+    }
+    if (!gAdventureFlags->func_ov00_02097738() && !gAdventureFlags->func_ov00_02097750()) {
+        mUnk_28e = 0;
+    }
+    if (gMessageManager.mUnk_20[1] == NULL) {
+        mUnk_224.vfunc_10();
+    }
+    switch (mUnk_130) {
+        case 0:
+            if (this->vfunc_cc(NULL)) {
+                return;
+            }
+            this->SetActive(1);
+            return;
+        case 1:
+        case 2: {
+            s32 midX, midY, midZ;
+            midZ     = (mOffsetPos.z + mPos.z) / 2;
+            midY     = (mOffsetPos.y + mPos.y) / 2;
+            midX     = (mOffsetPos.x + mPos.x) / 2;
+            s32 dist = 0x3000;
+            if (gPlayerLink != NULL && gPlayerLink->GetCurrentCharacter() == 0) {
+                if (mUnk_28f != 0) {
+                    dist         = 0;
+                    mOffsetPos.x = gPlayerPos.x;
+                    mOffsetPos.y = gPlayerPos.y;
+                    mOffsetPos.z = gPlayerPos.z;
+                    mOffsetPos.y += 0x199a;
+                } else {
+                    NaviFilterActor filter;
+                    filter.mActor = NULL;
+                    filter.mDist  = 0x3000;
+                    filter.mPos.x = midX;
+                    filter.mPos.y = midY;
+                    filter.mPos.z = midZ;
+                    if (gActorManager->FilterActors(&filter, NULL) > 0) {
+                        Cylinder cyl;
+                        dist = filter.mDist;
+                        filter.mActor->GetHitbox(&cyl);
+                        mOffsetPos.x = cyl.pos.x;
+                        mOffsetPos.y = cyl.pos.y;
+                        mOffsetPos.z = cyl.pos.z;
+                        mOffsetPos.y += filter.mActor->mYOffset + 0x666;
+                    }
+                    struct {
+                        Vec3p pos;
+                        s32 dist;
+                    } mapArgs;
+                    mapArgs.pos.x                        = midX;
+                    mapArgs.pos.y                        = midY;
+                    mapArgs.pos.z                        = midZ;
+                    mapArgs.dist                         = dist;
+                    UnkStruct_ov000_020853fc *mapResult = MapManager::func_ov00_020853fc(gMapManager, &mapArgs.pos, &dist);
+                    if (mapResult != NULL && mapResult->mUnk_12 != 1) {
+                        mOffsetPos.x = mapResult->mUnk_18.x;
+                        mOffsetPos.y = mapResult->mUnk_18.y;
+                        mOffsetPos.z = mapResult->mUnk_18.z;
+                        UnkStruct_ov000_020e2f04 *shape = mapResult->vfunc_54();
+                        s32 height;
+                        if (shape == NULL) {
+                            height = 0;
+                        } else {
+                            height = shape->GetHeight();
+                        }
+                        mOffsetPos.y += height;
+                    }
+                }
+            }
+            if (dist < 0x3000) {
+                if (mUnk_130 == 1) {
+                    this->SetActive(2);
+                }
+                return;
+            }
+            if (mUnk_130 == 2) {
+                this->SetActive(1);
+            }
+            return;
+        }
+        case 8:
+            if ((mUnk_224.mUnk_18 & ~0xffff) == 0x01000000 && gMessageManager.mUnk_04 == 0) {
+                this->SetActive(1);
+                mUnk_11c = 0;
+            }
+            return;
+        case 4:
+            if (XzDistanceTo(&mOffsetPos) <= 0x20) {
+                this->SetActive(5);
+            }
+            return;
+        case 5:
+            if (gPlayerLink->func_ov000_020bcf2c()) {
+                return;
+            }
+            if ((s32) mActiveFrames < 8) {
+                return;
+            }
+            this->SetActive(1);
+            return;
+        case 6:
+            if (XzDistanceToLink() <= 0x20) {
+                this->SetActive(0);
+            }
+            return;
+        case 3:
+        case 7:
+        case 9:
+        default:
+            return;
+    }
+}
 ARM void ActorNaviBase::func_ov000_020b9770(s32 param1) {
     void *resource = func_0201e544(data_ov000_020e678c[8], sNaviNames[param1].name);
     func_ov000_020c0cc8(&mUnk_1d0, resource, 0, sNaviNames[param1].id);
