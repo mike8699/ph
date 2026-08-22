@@ -86,7 +86,7 @@ public:
     /* 34 */ virtual void GetOffsetPos(Vec3p *pos) override;
     /* 38 */ virtual unk32 vfunc_38() override;
     /* 74 */ virtual void vfunc_74(ActorRef *) override;
-    /* 78 */ virtual bool vfunc_78() override;
+    /* 78 */ virtual bool vfunc_78(s32 param1) override;
     /* 80 */ virtual void vfunc_80() override;
     /* 84 */ virtual void vfunc_84() override;
     /* 90 */ virtual bool vfunc_90(unk32 param1, unk32 param2) override;

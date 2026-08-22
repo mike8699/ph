@@ -256,7 +256,7 @@ ARM void ActorCharacter::vfunc_c8() {
     mUnk_1d8.func_ov014_02145cac();
 }
 
-ARM bool ActorCharacter::vfunc_78() {
+ARM bool ActorCharacter::vfunc_78(s32 param1) {
     return true;
 }
 

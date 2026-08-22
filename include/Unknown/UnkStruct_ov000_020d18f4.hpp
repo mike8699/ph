@@ -10,7 +10,7 @@ class UnkStruct_ov000_020d18f4 : public UnkStruct_02037750 {
 public:
     /* 00 (base) */
     /* 20 */ ActorRef mUnk_20;
-    /* 28 */ unk8 mUnk_28[0x18];
+    /* 28 */ ActorRef mUnk_28[3];
     /* 40 */ void *mUnk_40;
     /* 44 */ unk32 mUnk_44;
     /* 48 */ void *mUnk_48;
