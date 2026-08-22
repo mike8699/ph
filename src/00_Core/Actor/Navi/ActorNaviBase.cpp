@@ -496,7 +496,94 @@ ARM void ActorNaviBase::vfunc_e8() {
     mUnk_1d0.func_ov000_020c0e04();
 }
 
-ARM void ActorNaviBase::vfunc_14(u32 param1) {}
+ARM void ActorNaviBase::vfunc_14(u32 param1) {
+    if (!this->func_ov00_020c313c(param1)) {
+        return;
+    }
+    if (mUnk_28d != 0) {
+        ActorNaviBase_Unk1 *end;
+        ActorNaviBase_Unk1 *p;
+        p   = &mUnk_218[0];
+        end = &mUnk_218[0] + 2;
+        for (; p != end; p++) {
+            UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
+            if (inst != NULL) {
+                inst->mUnk_24_3 = 1;
+            }
+        }
+        return;
+    }
+    mPrevPos.x = mPos.x;
+    mPrevPos.y = mPos.y;
+    mPrevPos.z = mPos.z;
+    this->vfunc_ec();
+    if (mVisible) {
+        s32 speed;
+        UnkStruct_ov000_020b7d74_00 *inst0;
+        UnkStruct_ov000_020b7d74_00 *inst1;
+        this->vfunc_d0();
+        this->vfunc_d4();
+        Vec3p_Add(&mPos, &mVel, &mPos);
+        this->IncreaseActiveFrames();
+        this->vfunc_e0();
+        this->vfunc_d8();
+        Vec3p pos     = mPos;
+        Vec3p prevPos = mPrevPos;
+        pos.y += 0x333;
+        prevPos.y += 0x333;
+        speed = Vec3p_Length(&mVel) - ((s32) ((u32) (mUnk_220 * 0x3000) >> 1) / 3);
+        inst0 = mUnk_218[0].mUnk_0;
+        if (inst0 != NULL) {
+            inst0->mUnk_28.x = pos.x + (*inst0->mUnk_20)->mUnk_04.x;
+            inst0->mUnk_28.y = pos.y + (*inst0->mUnk_20)->mUnk_04.y;
+            inst0->mUnk_28.z = pos.z + (*inst0->mUnk_20)->mUnk_04.z;
+        }
+        inst0 = mUnk_218[0].mUnk_0;
+        if (inst0 != NULL) {
+            u32 forward      = speed >= 0;
+            inst0->mUnk_24_1 = !forward;
+        }
+        if (speed >= 0x1800) {
+            Vec3p_Lerp(&pos, &prevPos, 0x2000);
+            inst1 = mUnk_218[1].mUnk_0;
+            if (inst1 != NULL) {
+                inst1->mUnk_28.x = pos.x + (*inst1->mUnk_20)->mUnk_04.x;
+                inst1->mUnk_28.y = pos.y + (*inst1->mUnk_20)->mUnk_04.y;
+                inst1->mUnk_28.z = pos.z + (*inst1->mUnk_20)->mUnk_04.z;
+            }
+            inst1 = mUnk_218[1].mUnk_0;
+            if (inst1 != NULL) {
+                inst1->mUnk_24_1 = 0;
+            }
+        } else {
+            inst1 = mUnk_218[1].mUnk_0;
+            if (inst1 != NULL) {
+                inst1->mUnk_24_1 = 1;
+            }
+        }
+        mUnk_220 = (mUnk_220 + 1) % 3;
+    } else if (mUnk_130 == 0 && !this->vfunc_cc(NULL)) {
+        this->SetActive(1);
+    }
+    {
+        ActorNaviBase_Unk1 *p = &mUnk_218[0];
+        bool visible          = mVisible;
+        if (p != &mUnk_218[0] + 2) {
+            u32 hidden = !visible;
+            do {
+                UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
+                if (inst != NULL) {
+                    inst->mUnk_24_3 = hidden;
+                }
+                p++;
+            } while (p != &mUnk_218[0] + 2);
+        }
+    }
+    if (!mVisible) {
+        return;
+    }
+    this->vfunc_e8();
+}
 
 ARM void ActorNaviBase::vfunc_18(u32 param1) {
     if (!this->func_ov00_020c313c(param1)) {
