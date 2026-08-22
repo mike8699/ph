@@ -25,3 +25,4 @@ struct UnkStruct_ov000_020b1d70 {
 };
 
 UnkStruct_ov000_020b1d70 *func_ov000_020b1d70(s32 param1, Vec3p *param2, u8 *param3);
+bool IsXzDistWithin(Vec3p *a, Vec3p *b, q20 dist);

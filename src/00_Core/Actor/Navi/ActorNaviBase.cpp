@@ -41,19 +41,9 @@ public:
 
 extern "C" u16 func_ov000_020b8790(s32);
 extern "C" u16 func_ov000_020b87cc(s32);
-extern bool func_ov000_02087e8c();
-extern unk32 func_ov000_02079e3c();
-extern bool IsXzDistWithin(Vec3p *a, Vec3p *b, q20 dist);
-extern "C" bool func_0202b2e8(Vec3p *dst, Vec3p *target, q20 speed);
-extern "C" void func_0202b2f8(Vec3p *dst, s32 param2, s32 param3);
-extern "C" void func_0202b4e4(Vec3p *dst, Vec3p *target, q20 speed, q20 param4, q20 limit);
-extern "C" void func_0202d95c(Vec3p *v);
-extern "C" bool Lerp(s32 *pValue, s32 dest, s32 factor, unk32 param4, u32 step);
-extern "C" void Vec3p_RotateY(u32 angle, Vec3p *v);
 extern "C" void func_ov000_020b8830(ItemModel *model, u32 color1, u32 color2);
 extern "C" void func_02019534(void *model, unk32 materialIdx, unk32 color);
 extern "C" u32 func_ov000_020b3ec4(ActorNaviBase_Unk3 *unk);
-extern Mat3p gDefaultMatrix;
 
 #pragma section sbss begin
 ItemModel *data_ov000_020ee1f8;
@@ -273,7 +263,7 @@ ARM void ActorNaviBase::vfunc_d4() {
             if (Vec3p_Length(&mVel) <= 0x4cd) {
                 return;
             }
-            func_0202d95c(&mVel);
+            func_0202d95c(&mVel, 0x4cd);
             return;
         }
         case 4:
@@ -909,7 +899,7 @@ ARM bool ActorNaviBase::vfunc_78(s32 param1) {
             return true;
     }
 }
-ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, s32 param3) {
+ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, Vec3p *param3) {
     PlayerLinkBase *playerLink = gPlayerLink;
     if (playerLink == NULL || !playerLink->func_ov000_020bd318()) {
         return false;
@@ -930,7 +920,7 @@ ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, s32 param3) {
     }
     Vec3p target = gPlayerPos;
     target.y += 0xccd;
-    if (param3 == 0) {
+    if (param3 == NULL) {
         if (data_027e0d38->mUnk_0c.func_ov000_020a5e9c() == 0x31) {
             s32 rawAngle = data_027e0f64->mUnk_4->mUnk_226 + 0x2000;
             u16 angle    = (u16) (s16) rawAngle;

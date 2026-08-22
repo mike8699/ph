@@ -397,3 +397,6 @@ public:
 };
 
 extern MapManager *gMapManager;
+
+unk32 func_ov000_02079e3c();
+bool func_ov000_02087e8c();

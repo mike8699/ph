@@ -93,7 +93,7 @@ public:
     /* 94 */ virtual void vfunc_94(unk32 param1, unk32 param2) override;
     /* b4 */ virtual FairyId GetFairyId() = 0;
     /* b8 */ virtual s32 vfunc_b8();
-    /* bc */ virtual bool vfunc_bc(unk32 param1, unk8 param2, s32 param3);
+    /* bc */ virtual bool vfunc_bc(unk32 param1, unk8 param2, Vec3p *param3);
     /* c0 */ virtual bool vfunc_c0(Vec3p *param1);
     /* c4 */ virtual u16 vfunc_c4();
     /* c8 */ virtual u16 vfunc_c8();
