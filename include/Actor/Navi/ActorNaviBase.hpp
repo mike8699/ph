@@ -112,7 +112,6 @@ public:
     void func_ov000_020b8c98(unk32 param1, unk32 param2, unk32 param3);
     void TeleportAboveLink();
     void func_ov000_020b9770(s32 param1);
-    void func_ov000_020b9fdc();
     void func_ov000_020b9fe8();
     unk32 func_ov000_020ba204(Vec3p *param1, Vec3p *param2, s32 param3);
     unk32 func_ov000_020ba3b4();

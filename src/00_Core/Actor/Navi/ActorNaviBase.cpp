@@ -10,6 +10,7 @@
 #include "Player/PlayerLinkBase.hpp"
 #include "Unknown/UnkStruct_020e9360.hpp"
 #include "Unknown/UnkStruct_ov000_020beba8.hpp"
+#include "Unknown/UnkStruct_ov000_020e9c88.hpp"
 
 extern "C" u16 func_ov000_020b8790(s32);
 extern "C" u16 func_ov000_020b87cc(s32);
@@ -263,8 +264,8 @@ ARM void ActorNaviBase::vfunc_e8() {
 ARM void ActorNaviBase::vfunc_14(u32 param1) {}
 
 ARM void ActorNaviBase::vfunc_18(u32 param1) {}
-ARM void ActorNaviBase::func_ov000_020b9fdc() {
-    this->func_ov000_020b9fe8();
+ARM static void func_ov000_020b9fdc(void *navi) {
+    ((ActorNaviBase *) navi)->func_ov000_020b9fe8();
 }
 
 ARM void ActorNaviBase::func_ov000_020b9fe8() {
@@ -292,7 +293,19 @@ ARM void ActorNaviBase::func_ov000_020b9fe8() {
     }
     mUnk_168.SetTransform(&scale, &gDefaultMatrix, &pos);
 }
-ARM void ActorNaviBase::vfunc_20(bool param1) {}
+extern unk32 data_ov000_020e9370;
+extern "C" void func_ov005_02102c2c(unk32 *, unk32, Vec3p *, unk32, unk32, unk32, unk32, unk32, unk32, unk32);
+ARM void ActorNaviBase::vfunc_20(bool param1) {
+    u8 flag = param1 ? mUnk_0a4.mUnk_01 : mUnk_0a4.mUnk_00;
+    if (flag == 0) {
+        return;
+    }
+    if (gPlayerLink->func_ov000_020bcefc()) {
+        return;
+    }
+    data_ov000_020e9c88.func_ov000_0207b89c(param1, &mPos, func_ov000_020b9fdc, this);
+    func_ov005_02102c2c(&data_ov000_020e9370, 0, &mPos, 0x400, 0x400, 0, 0x10, 0, 0, 0);
+}
 ARM void ActorNaviBase::vfunc_10(u32 param1) {
     if (mUnk_130 == 0 && gItemManager->GetEquippedFairy() == GetFairyId()) {
         this->SetActive(1);
