@@ -776,7 +776,51 @@ ARM void ActorNaviBase::func_ov000_020ba53c() {
     Vec3p_RotateY(angle, &tmp);
     func_ov000_020ba414(&tmp);
 }
-bool ActorNaviBase::vfunc_78() {}
+ARM bool ActorNaviBase::vfunc_78(s32 param1) {
+    switch (param1) {
+        case 0:
+            if (gItemManager->HasItem(ItemFlag_SpiritOfPower)) {
+                mUnk_224.mUnk_28[0] = gItemManager->GetFairy(FairyId_Power)->mRef;
+            }
+            if (gItemManager->HasItem(ItemFlag_SpiritOfWisdom)) {
+                mUnk_224.mUnk_28[1] = gItemManager->GetFairy(FairyId_Wisdom)->mRef;
+            }
+            mUnk_224.mUnk_28[2] = gItemManager->GetFairy(FairyId_Courage)->mRef;
+            return true;
+        case 1:
+            if (gItemManager->HasItem(ItemFlag_SpiritOfPower)) {
+                mUnk_224.mUnk_28[0] = gItemManager->GetFairy(FairyId_Power)->mRef;
+            }
+            return true;
+        case 2:
+            if (gItemManager->HasItem(ItemFlag_SpiritOfWisdom)) {
+                mUnk_224.mUnk_28[1] = gItemManager->GetFairy(FairyId_Wisdom)->mRef;
+            }
+            return true;
+        case 3:
+            if (gItemManager->HasItem(ItemFlag_SpiritOfPower)) {
+                mUnk_224.mUnk_28[0] = gItemManager->GetFairy(FairyId_Power)->mRef;
+            }
+            mUnk_224.mUnk_28[2] = gItemManager->GetFairy(FairyId_Courage)->mRef;
+            return true;
+        case 4:
+            if (gItemManager->HasItem(ItemFlag_SpiritOfWisdom)) {
+                mUnk_224.mUnk_28[1] = gItemManager->GetFairy(FairyId_Wisdom)->mRef;
+            }
+            mUnk_224.mUnk_28[2] = gItemManager->GetFairy(FairyId_Courage)->mRef;
+            return true;
+        case 5:
+            if (gItemManager->HasItem(ItemFlag_SpiritOfPower)) {
+                mUnk_224.mUnk_28[0] = gItemManager->GetFairy(FairyId_Power)->mRef;
+            }
+            if (gItemManager->HasItem(ItemFlag_SpiritOfWisdom)) {
+                mUnk_224.mUnk_28[1] = gItemManager->GetFairy(FairyId_Wisdom)->mRef;
+            }
+            return true;
+        default:
+            return true;
+    }
+}
 ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, s32 param3) {
     PlayerLinkBase *playerLink = gPlayerLink;
     if (playerLink == NULL || !playerLink->func_ov000_020bd318()) {
