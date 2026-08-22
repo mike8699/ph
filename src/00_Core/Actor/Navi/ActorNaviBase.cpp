@@ -42,6 +42,7 @@ extern "C" u16 func_ov000_020b8790(s32);
 extern "C" u16 func_ov000_020b87cc(s32);
 extern bool func_ov000_02087e8c();
 extern unk32 func_ov000_02079e3c();
+extern bool IsXzDistWithin(Vec3p *a, Vec3p *b, q20 dist);
 extern "C" bool func_0202b2e8(Vec3p *dst, Vec3p *target, q20 speed);
 extern "C" void func_0202b2f8(Vec3p *dst, s32 param2, s32 param3);
 extern "C" void func_0202b4e4(Vec3p *dst, Vec3p *target, q20 speed, q20 param4, q20 limit);
@@ -858,7 +859,55 @@ ARM void ActorNaviBase::func_ov000_020baca8(Vec3p *param1, unk32 param2) {
     mUnk_164     = param2;
     this->SetActive(7);
 }
-bool ActorNaviBase::vfunc_90(unk32 param1, unk32 param2) {}
+ARM bool ActorNaviBase::vfunc_90(unk32 param1, unk32 param2) {
+    UnkStruct_ov000_020e8b08 *const ptr = data_ov000_020e8b08;
+    if (ptr == NULL || !ptr->Contains(&mRef)) {
+        mUnk_28e = 1;
+    }
+    UnkStruct_ov000_020b1d70 *path = func_ov000_020b1d70(param1, &mPos, NULL);
+    if (mUnk_222 < 0 || mUnk_130 != 9) {
+        if (param2 == 0) {
+            mUnk_222 = 0;
+        } else {
+            mUnk_222 = path->mUnk_00->mUnk_01 - 1;
+        }
+        UnkStruct_ov000_020b1d70_04 *node = &path->mUnk_04[mUnk_222];
+        mOffsetPos.x                      = node->mUnk_04.x;
+        mOffsetPos.y                      = node->mUnk_04.y;
+        mOffsetPos.z                      = node->mUnk_04.z;
+        Vec3p pos;
+        pos.x        = mOffsetPos.x;
+        pos.y        = mOffsetPos.y;
+        pos.z        = mOffsetPos.z;
+        mOffsetPos.y = gMapManager->MapData_vfunc_68(&pos, 1) + 0x1000;
+        this->SetActive(9);
+    }
+    if (IsXzDistWithin(&mOffsetPos, &mPos, 0x333)) {
+        if (param2 != 0) {
+            if (mUnk_222 == 0) {
+                mUnk_222 = -1;
+                return true;
+            }
+            mUnk_222--;
+        } else {
+            if (mUnk_222 == path->mUnk_00->mUnk_01 - 1) {
+                mUnk_222 = -1;
+                return true;
+            }
+            mUnk_222++;
+        }
+        UnkStruct_ov000_020b1d70_04 *node = &path->mUnk_04[mUnk_222];
+        mOffsetPos.x                      = node->mUnk_04.x;
+        mOffsetPos.y                      = node->mUnk_04.y;
+        mOffsetPos.z                      = node->mUnk_04.z;
+        Vec3p pos;
+        pos.x        = mOffsetPos.x;
+        pos.y        = mOffsetPos.y;
+        pos.z        = mOffsetPos.z;
+        mOffsetPos.y = gMapManager->MapData_vfunc_68(&pos, 1) + 0x1000;
+    }
+    return false;
+}
 ARM void ActorNaviBase::vfunc_94(unk32 param1, unk32 param2) {
     UnkStruct_ov000_020e8b08 *const ptr = data_ov000_020e8b08;
     if (ptr == NULL || !ptr->Contains(&mRef)) {
