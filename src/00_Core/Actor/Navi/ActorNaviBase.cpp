@@ -193,47 +193,17 @@ ARM bool ActorNaviBase::vfunc_cc(unk32 *param1) {
     }
     if (data_ov000_020e8b08 != NULL) {
         UnkStruct_ov000_020e8b08 *const ptr = data_ov000_020e8b08;
-        s32 j;
-        s32 i    = 0;
-        s32 myId = mRef.id;
-        s32 found;
-        do {
-            if (ptr->mUnk_20[i].id == myId) {
-                found = 1;
-                goto after_first;
-            }
-            i++;
-        } while (i < 4);
-        found = 0;
-    after_first:
-        if (found != 0 || mUnk_28e != 0) {
+        if (ptr->Contains(&mRef) || mUnk_28e != 0) {
             return false;
         }
-        j = 0;
-        do {
-            if (j != GetFairyId()) {
-                s32 k;
-                s32 fairyId = gItemManager->GetFairy(j)->mRef.id;
-                s32 fmatch;
-                k = 0;
-                do {
-                    if (ptr->mUnk_20[k].id == fairyId) {
-                        fmatch = 1;
-                        goto check_match;
-                    }
-                    k++;
-                } while (k < 4);
-                fmatch = 0;
-            check_match:
-                if (fmatch != 0) {
-                    if (param1 != NULL) {
-                        *param1 = 6;
-                    }
-                    return true;
+        for (s32 i = 0; i < FairyId_COUNT; i++) {
+            if (i != GetFairyId() && ptr->Contains(&gItemManager->GetFairy(i)->mRef)) {
+                if (param1 != NULL) {
+                    *param1 = 6;
                 }
+                return true;
             }
-            j++;
-        } while (j < FairyId_COUNT);
+        }
     }
     if (gItemManager->GetEquippedFairy() == GetFairyId()) {
         if (GetFairyId() == FairyId_Courage) {
