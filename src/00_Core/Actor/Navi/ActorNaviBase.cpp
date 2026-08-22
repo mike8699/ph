@@ -3,6 +3,7 @@
 
 #include "Actor/ActorManager.hpp"
 #include "Actor/FilterActorBase.hpp"
+#include "DTCM/UnkStruct_027e0d38.hpp"
 #include "DTCM/UnkStruct_027e0e58.hpp"
 #include "DTCM/UnkStruct_027e0f64.hpp"
 #include "Game/Game.hpp"
@@ -12,11 +13,13 @@
 #include "Message/MessageManager.hpp"
 #include "Physics/Cylinder.hpp"
 #include "Player/LinkStateBase.hpp"
+#include "Player/LinkStateInteract.hpp"
 #include "Player/LinkStateItem.hpp"
 #include "Player/PlayerBase.hpp"
 #include "Player/PlayerLinkBase.hpp"
 #include "Save/AdventureFlags.hpp"
 #include "Unknown/UnkStruct_020e9360.hpp"
+#include "Unknown/UnkStruct_020eec9c.hpp"
 #include "Unknown/UnkStruct_ov000_020beba8.hpp"
 #include "Unknown/UnkStruct_ov000_020e2f04.hpp"
 #include "Unknown/UnkStruct_ov000_020e8b08.hpp"
@@ -38,6 +41,7 @@ extern "C" u16 func_ov000_020b87cc(s32);
 extern bool func_ov000_02087e8c();
 extern unk32 func_ov000_02079e3c();
 extern "C" bool func_0202b2e8(Vec3p *dst, Vec3p *target, q20 speed);
+extern "C" void func_0202b2f8(Vec3p *dst, s32 param2, s32 param3);
 extern "C" bool Lerp(s32 *pValue, s32 dest, s32 factor, unk32 param4, u32 step);
 extern "C" void Vec3p_RotateY(u32 angle, Vec3p *v);
 extern "C" void func_ov000_020c0e24(UnkStruct_ov000_020c0c08 *self, s32 param2);
@@ -789,7 +793,68 @@ ARM void ActorNaviBase::func_ov000_020ba53c() {
     func_ov000_020ba414(&tmp);
 }
 bool ActorNaviBase::vfunc_78() {}
-ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, s32 param3) {}
+ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, s32 param3) {
+    PlayerLinkBase *playerLink = gPlayerLink;
+    if (playerLink == NULL || !playerLink->func_ov000_020bd318()) {
+        return false;
+    }
+    playerLink->vfunc_7c(PlayerCharacter_Link, true);
+    if (mUnk_130 == 8) {
+        return false;
+    }
+    if (!gAdventureFlags->func_ov00_02097bbc() && !gMessageManager.func_020368f4(&mUnk_224)) {
+        return false;
+    }
+    if (!gMessageManager.func_02036ce4(&mUnk_224, param1)) {
+        return false;
+    }
+    s32 unk = this->vfunc_b8();
+    if (unk > 0) {
+        data_ov000_020eec9c.func_ov000_020d77e4(unk);
+    }
+    Vec3p target = gPlayerPos;
+    target.y += 0xccd;
+    if (param3 == 0) {
+        if (data_027e0d38->mUnk_0c.func_ov000_020a5e9c() == 0x31) {
+            s32 rawAngle = data_027e0f64->mUnk_4->mUnk_226 + 0x2000;
+            u16 angle    = (u16) (s16) rawAngle;
+            target.x += MUL_Q20(SIN(angle), 0x1000);
+            target.z += MUL_Q20(COS(angle), 0x1000);
+            Vec3p pos;
+            pos       = target;
+            s32 mapY  = gMapManager->MapData_vfunc_68(&pos, 1);
+            u32 below = target.y < mapY;
+            if (below) {
+                target.x -= MUL_Q20(SIN((u16) rawAngle), 0x2000);
+            }
+        } else {
+            u16 angle = (u16) (s16) (*(s16 *) &mAngle + 0x2000);
+            target.x += MUL_Q20(SIN(angle), 0x1000);
+            target.z += MUL_Q20(COS(angle), 0x1000);
+            Vec3p pos;
+            pos       = target;
+            s32 mapY  = gMapManager->MapData_vfunc_68(&pos, 1);
+            u32 below = target.y < mapY;
+            if (below) {
+                target.x -= MUL_Q20(SIN((u16) (*(s16 *) &mAngle + 0x2000)), 0x2000);
+            }
+        }
+        mOffsetPos.x = target.x;
+        mOffsetPos.y = target.y;
+        mOffsetPos.z = target.z;
+    } else {
+        mOffsetPos.x = target.x;
+        mOffsetPos.y = target.y;
+        mOffsetPos.z = target.z;
+        func_0202b2f8(&mOffsetPos, param3, 0x1000);
+    }
+    mUnk_28c = 1;
+    this->SetUnk_11c(true);
+    UnkStruct_02037750::GetLinkStateInteract()->Grab(&mRef);
+    mUnk_224.mUnk_54 = param2;
+    this->SetActive(8);
+    return true;
+}
 ARM void ActorNaviBase::vfunc_74(ActorRef *ref) {
     if (ref->id == mRef.id) {
         this->SetActive(8);

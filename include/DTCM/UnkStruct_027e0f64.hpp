@@ -14,7 +14,9 @@ struct UnkStruct_027e0f64_04 {
     /* 15c */ unk32 mUnk_15c;
     /* 160 */ PAD(0x160, 0x1b4);
     /* 1b4 */ unk32 mUnk_1b4;
-    /* 1b8 */ PAD(0x1b8, 0x260);
+    /* 1b8 */ PAD(0x1b8, 0x226);
+    /* 226 */ s16 mUnk_226;
+    /* 228 */ PAD(0x228, 0x260);
     /* 260 */ Vec3p mUnk_260;
     /* 26c */ Vec3p mUnk_26c;
     /* 278 */
