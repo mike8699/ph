@@ -61,7 +61,7 @@ public:
     /* 216 */ unk8 mUnk_216[0x2];
     /* 218 */ ActorNaviBase_Unk1 mUnk_218[2];
     /* 220 */ s16 mUnk_220;
-    /* 222 */ unk16 mUnk_222;
+    /* 222 */ s16 mUnk_222;
     /* 224 */ UnkStruct_ov000_020d18f4 mUnk_224;
     /* 280 */ unk32 mUnk_280;
     /* 284 */ unk32 mUnk_284;
