@@ -50,10 +50,6 @@ extern "C" void func_0202b4e4(Vec3p *dst, Vec3p *target, q20 speed, q20 param4, 
 extern "C" void func_0202d95c(Vec3p *v);
 extern "C" bool Lerp(s32 *pValue, s32 dest, s32 factor, unk32 param4, u32 step);
 extern "C" void Vec3p_RotateY(u32 angle, Vec3p *v);
-extern "C" void func_ov000_020c0e24(UnkStruct_ov000_020c0c08 *self, s32 param2);
-extern "C" void func_ov000_0207c1f8(UnkStruct_027e0e58 *self, ActorNaviBase_Unk1 *ref, u32 modelId, Vec3p *pos, s32 param5);
-extern void func_ov000_020b7e6c(s32 *param1);
-extern "C" void func_ov000_020c0cc8(UnkStruct_ov000_020c0c08 *self, void *param2, unk32 param3, unk32 param4);
 extern "C" void func_ov000_020b8830(ItemModel *model, u32 color1, u32 color2);
 extern "C" void func_02019534(void *model, unk32 materialIdx, unk32 color);
 extern "C" u32 func_ov000_020b3ec4(ActorNaviBase_Unk3 *unk);
@@ -347,7 +343,7 @@ ARM void ActorNaviBase::SetActive(unk32 active) {
         do {
             if (p->mUnk_0 == 0) {
                 inst = data_027e0e58;
-                func_ov000_0207c1f8(inst, p, sFairyModelIds[GetFairyId()], &mPos, 2);
+                inst->func_ov000_0207c1f8(p, sFairyModelIds[GetFairyId()], &mPos, 2);
             }
             i++;
             p++;
@@ -363,7 +359,7 @@ ARM void ActorNaviBase::SetActive(unk32 active) {
             end      = mUnk_218 + 2;
             if (p != end) {
                 do {
-                    func_ov000_020b7e6c((s32 *) &p->mUnk_0);
+                    p->func_ov000_020b7e6c();
                     p++;
                 } while (p != end);
             }
@@ -524,7 +520,7 @@ ARM void ActorNaviBase::vfunc_e0() {
 }
 ARM void ActorNaviBase::func_ov000_020b9770(s32 param1) {
     void *resource = func_0201e544(data_ov000_020e678c.mFile, sNaviNames[param1].name);
-    func_ov000_020c0cc8(&mUnk_1d0, resource, 0, sNaviNames[param1].id);
+    mUnk_1d0.func_ov000_020c0cc8(resource, 0, sNaviNames[param1].id);
     mUnk_168.vfunc_28();
     mUnk_168.vfunc_24(&mUnk_1d0);
 }
@@ -560,7 +556,7 @@ ARM void ActorNaviBase::vfunc_e8() {
                     if ((s32) mVel.y >= 0) {
                         mUnk_1d0.mUnk_0c.mUnk_04 = 0xb33;
                     } else {
-                        func_ov000_020c0e24(&mUnk_1d0, 0);
+                        mUnk_1d0.func_ov000_020c0e24(0);
                         mUnk_1d0.mUnk_0c.mUnk_04 = 0;
                     }
                     break;

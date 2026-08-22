@@ -32,4 +32,6 @@ public:
     inline UnkStruct_ov000_020b7d74() :
         mUnk_0(NULL) {}
     ~UnkStruct_ov000_020b7d74();
+
+    void func_ov000_020b7e6c();
 };
