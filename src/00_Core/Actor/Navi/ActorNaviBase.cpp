@@ -18,8 +18,10 @@
 #include "Player/PlayerBase.hpp"
 #include "Player/PlayerLinkBase.hpp"
 #include "Save/AdventureFlags.hpp"
+#include "System/Random.hpp"
 #include "Unknown/UnkStruct_020e9360.hpp"
 #include "Unknown/UnkStruct_020eec9c.hpp"
+#include "Unknown/UnkStruct_ov000_020b1d70.hpp"
 #include "Unknown/UnkStruct_ov000_020beba8.hpp"
 #include "Unknown/UnkStruct_ov000_020e2f04.hpp"
 #include "Unknown/UnkStruct_ov000_020e8b08.hpp"
@@ -42,6 +44,8 @@ extern bool func_ov000_02087e8c();
 extern unk32 func_ov000_02079e3c();
 extern "C" bool func_0202b2e8(Vec3p *dst, Vec3p *target, q20 speed);
 extern "C" void func_0202b2f8(Vec3p *dst, s32 param2, s32 param3);
+extern "C" void func_0202b4e4(Vec3p *dst, Vec3p *target, q20 speed, q20 param4, q20 limit);
+extern "C" void func_0202d95c(Vec3p *v);
 extern "C" bool Lerp(s32 *pValue, s32 dest, s32 factor, unk32 param4, u32 step);
 extern "C" void Vec3p_RotateY(u32 angle, Vec3p *v);
 extern "C" void func_ov000_020c0e24(UnkStruct_ov000_020c0c08 *self, s32 param2);
@@ -876,7 +880,36 @@ ARM void ActorNaviBase::func_ov000_020baca8(Vec3p *param1, unk32 param2) {
     this->SetActive(7);
 }
 bool ActorNaviBase::vfunc_90(unk32 param1, unk32 param2) {}
-void ActorNaviBase::vfunc_94(unk32 param1, unk32 param2) {}
+ARM void ActorNaviBase::vfunc_94(unk32 param1, unk32 param2) {
+    UnkStruct_ov000_020e8b08 *const ptr = data_ov000_020e8b08;
+    if (ptr == NULL || !ptr->Contains(&mRef)) {
+        mUnk_28e = 1;
+    }
+    UnkStruct_ov000_020b1d70 *path = func_ov000_020b1d70(param1, &mPos, NULL);
+    if (param2 != 0) {
+        UnkStruct_ov000_020b1d70_04 *node = path->mUnk_04;
+        mOffsetPos.x                      = node->mUnk_04.x;
+        mOffsetPos.y                      = node->mUnk_04.y;
+        mOffsetPos.z                      = node->mUnk_04.z;
+    } else {
+        UnkStruct_ov000_020b1d70_04 *node = &path->mUnk_04[path->mUnk_00->mUnk_01 - 1];
+        mOffsetPos.x                      = node->mUnk_04.x;
+        mOffsetPos.y                      = node->mUnk_04.y;
+        mOffsetPos.z                      = node->mUnk_04.z;
+    }
+    Vec3p pos;
+    pos.x        = mOffsetPos.x;
+    pos.y        = mOffsetPos.y;
+    pos.z        = mOffsetPos.z;
+    mOffsetPos.y = gMapManager->MapData_vfunc_68(&pos, 1) + 0x1000;
+    mPos.x       = mOffsetPos.x;
+    mPos.y       = mOffsetPos.y;
+    mPos.z       = mOffsetPos.z;
+    mPrevPos.x   = mOffsetPos.x;
+    mPrevPos.y   = mOffsetPos.y;
+    mPrevPos.z   = mOffsetPos.z;
+    this->SetActive(9);
+}
 ARM void ActorNaviBase::func_ov000_020bb0ac() {
     for (s32 i = 0; i < FairyId_COUNT; i++) {
         gItemManager->GetFairy(i)->mUnk_290 = 1;
