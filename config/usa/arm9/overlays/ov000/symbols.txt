@@ -2489,7 +2489,7 @@ _ZN13ActorNaviBase8vfunc_ecEv kind:function(arm,size=0x4) addr:0x020bb0b4
 func_ov000_020bb118 kind:function(arm,size=0x1c) addr:0x020bb0b8
 func_ov000_020bb134 kind:function(arm,size=0x1c) addr:0x020bb0d4
 func_ov000_020bb150 kind:function(arm,size=0x14) addr:0x020bb0f0
-func_ov000_020bb164 kind:function(arm,size=0x94) addr:0x020bb104
+_ZN15NaviFilterActor6FilterEP5Actor kind:function(arm,size=0x94) addr:0x020bb104
 _ZN15ItemModelLoaderC1Ev kind:function(thumb,size=0xf4) addr:0x020bb198
 _ZN15ItemModelLoader19func_ov000_020bb2ecEv kind:function(thumb,size=0x60) addr:0x020bb28c
 _ZN15ItemModelLoader19func_ov000_020bb34cEv kind:function(thumb,size=0x2c) addr:0x020bb2ec
@@ -5025,7 +5025,7 @@ data_ov000_020e6788 kind:data(any) addr:0x020e6728
 data_ov000_020e678c kind:data(any) addr:0x020e672c
 data_ov000_020e67ac kind:data(any) addr:0x020e674c
 data_ov000_020e67b8 kind:data(any) addr:0x020e6758
-data_ov000_020e67d8 kind:data(any) addr:0x020e6778
+_ZTV15NaviFilterActor kind:data(any) addr:0x020e6778
 _ZTV13ActorNaviBase kind:data(any) addr:0x020e677c
 _ZTV18ActorNaviBase_Unk3 kind:data(any) addr:0x020e6874
 data_ov000_020e691c kind:data(any) addr:0x020e68bc
