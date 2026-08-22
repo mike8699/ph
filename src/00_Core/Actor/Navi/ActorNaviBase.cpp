@@ -3,18 +3,25 @@
 
 #include "Physics/Cylinder.hpp"
 #include "DTCM/UnkStruct_027e0e58.hpp"
+#include "DTCM/UnkStruct_027e0f64.hpp"
+#include "Game/Game.hpp"
 #include "Item/ItemManager.hpp"
 #include "Map/MapManager.hpp"
 #include "Map/TilePos.hpp"
+#include "Player/LinkStateBase.hpp"
+#include "Player/LinkStateItem.hpp"
 #include "Player/PlayerBase.hpp"
 #include "Player/PlayerLinkBase.hpp"
+#include "Save/AdventureFlags.hpp"
 #include "Unknown/UnkStruct_020e9360.hpp"
 #include "Unknown/UnkStruct_ov000_020beba8.hpp"
+#include "Unknown/UnkStruct_ov000_020e8b08.hpp"
 #include "Unknown/UnkStruct_ov000_020e9c88.hpp"
 
 extern "C" u16 func_ov000_020b8790(s32);
 extern "C" u16 func_ov000_020b87cc(s32);
 extern bool func_ov000_02087e8c();
+extern unk32 func_ov000_02079e3c();
 extern "C" bool func_0202b2e8(Vec3p *dst, Vec3p *target, q20 speed);
 extern "C" bool Lerp(s32 *pValue, s32 dest, s32 factor, unk32 param4, u32 step);
 extern "C" void Vec3p_RotateY(u32 angle, Vec3p *v);
@@ -118,7 +125,112 @@ ARM void ActorNaviBase::vfunc_d0() {
 ARM void ActorNaviBase::vfunc_d8() {}
 ARM void ActorNaviBase::vfunc_ec() {}
 
-ARM bool ActorNaviBase::vfunc_cc(unk32 *param1) {}
+ARM bool ActorNaviBase::vfunc_cc(unk32 *param1) {
+    if (param1 != NULL) {
+        *param1 = 0;
+    }
+    if (mUnk_290 != 0) {
+        return true;
+    }
+    if (gGame.mModeId == GameModeId_Battle && func_ov000_02079e3c()) {
+        return true;
+    }
+    if (gPlayer->mHealth <= 0) {
+        return true;
+    }
+    s32 val = data_027e0f64->mUnk_4->mUnk_15c;
+    switch (val) {
+        case 10:
+        case 0x44:
+        case 0x45:
+        case 0x4b:
+        case 0x4c:
+            return true;
+    }
+    if (!gAdventureFlags->func_ov00_02097738() && !gAdventureFlags->func_ov00_02097750()) {
+        if (mUnk_11c) {
+            return false;
+        }
+        s32 hammer = LinkStateBase::GetLinkItemState()->IsHammerEquipped();
+        if (hammer != -1) {
+            goto set_true;
+        }
+        // Unreachable, but the original binary contains this second branch on the same condition
+        if (hammer != -1) {
+            goto ret_false;
+        }
+        if (gItemManager->GetEquippedFairy() == GetFairyId()) {
+            goto ret_false;
+        }
+    set_true:
+        if (param1 != NULL) {
+            *param1 = 6;
+        }
+        return true;
+    }
+    if (data_ov000_020e8b08 != NULL) {
+        UnkStruct_ov000_020e8b08 *const ptr = data_ov000_020e8b08;
+        s32 j;
+        s32 i    = 0;
+        s32 myId = mRef.id;
+        s32 found;
+        do {
+            if (ptr->mUnk_20[i].id == myId) {
+                found = 1;
+                goto after_first;
+            }
+            i++;
+        } while (i < 4);
+        found = 0;
+    after_first:
+        if (found != 0 || mUnk_28e != 0) {
+            return false;
+        }
+        j = 0;
+        do {
+            if (j != GetFairyId()) {
+                s32 k;
+                s32 fairyId = gItemManager->GetFairy(j)->mRef.id;
+                s32 fmatch;
+                k = 0;
+                do {
+                    if (ptr->mUnk_20[k].id == fairyId) {
+                        fmatch = 1;
+                        goto check_match;
+                    }
+                    k++;
+                } while (k < 4);
+                fmatch = 0;
+            check_match:
+                if (fmatch != 0) {
+                    if (param1 != NULL) {
+                        *param1 = 6;
+                    }
+                    return true;
+                }
+            }
+            j++;
+        } while (j < FairyId_COUNT);
+    }
+    if (gItemManager->GetEquippedFairy() == GetFairyId()) {
+        if (GetFairyId() == FairyId_Courage) {
+            return false;
+        }
+        if (gItemManager->GetFairy(FairyId_Courage)->mUnk_28e != 0) {
+            if (param1 != NULL) {
+                *param1 = 6;
+            }
+            return true;
+        }
+        return false;
+    }
+    if (param1 != NULL) {
+        *param1 = 6;
+    }
+    return true;
+ret_false:
+    return false;
+}
 ARM void ActorNaviBase::func_ov000_020b8c50(unk32 param1) {
     Vec3p tmp = mPos;
     func_0202b2e8(&tmp, &mOffsetPos, param1);
