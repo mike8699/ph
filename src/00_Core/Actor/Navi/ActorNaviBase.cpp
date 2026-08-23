@@ -85,9 +85,7 @@ ARM s32 ActorNaviBase::vfunc_b8() {
 }
 
 ARM void ActorNaviBase::GetOffsetPos(Vec3p *pos) {
-    pos->x = mOffsetPos.x;
-    pos->y = mOffsetPos.y;
-    pos->z = mOffsetPos.z;
+    *pos = mOffsetPos;
 }
 
 ARM unk32 ActorNaviBase::vfunc_38() {
@@ -122,15 +120,11 @@ ARM void ActorNaviBase::vfunc_d0() {
     GetLinkPos(&linkPos);
     switch (mUnk_130) {
         case 1:
-            mOffsetPos.x = linkPos.x;
-            mOffsetPos.y = linkPos.y;
-            mOffsetPos.z = linkPos.z;
+            mOffsetPos = linkPos;
             mOffsetPos.y += 0x199a;
             break;
         case 6:
-            mOffsetPos.x = linkPos.x;
-            mOffsetPos.y = linkPos.y;
-            mOffsetPos.z = linkPos.z;
+            mOffsetPos = linkPos;
             mOffsetPos.y += 0x800;
             break;
     }
@@ -152,8 +146,7 @@ ARM bool ActorNaviBase::vfunc_cc(unk32 *param1) {
     if (gPlayer->mHealth <= 0) {
         return true;
     }
-    s32 val = data_027e0f64->mUnk_4->mUnk_15c;
-    switch (val) {
+    switch (data_027e0f64->mUnk_4->mUnk_15c) {
         case 10:
         case 0x44:
         case 0x45:
@@ -342,16 +335,9 @@ ARM void ActorNaviBase::SetActive(unk32 active) {
     }
     switch (active) {
         case 0: {
-            ActorNaviBase_Unk1 *end;
-            ActorNaviBase_Unk1 *p;
             mVisible = false;
-            p        = mUnk_218;
-            end      = mUnk_218 + 2;
-            if (p != end) {
-                do {
-                    p->func_ov000_020b7e6c();
-                    p++;
-                } while (p != end);
+            for (ActorNaviBase_Unk1 *p = mUnk_218; p != mUnk_218 + 2; p++) {
+                p->func_ov000_020b7e6c();
             }
             break;
         }
@@ -382,12 +368,8 @@ ARM void ActorNaviBase::TeleportAboveLink() {
     Vec3p linkPos;
     GetLinkPos(&linkPos);
     linkPos.y += 0x800;
-    mPos.x     = linkPos.x;
-    mPos.y     = linkPos.y;
-    mPos.z     = linkPos.z;
-    mPrevPos.x = linkPos.x;
-    mPrevPos.y = linkPos.y;
-    mPrevPos.z = linkPos.z;
+    mPos     = linkPos;
+    mPrevPos = linkPos;
 }
 
 ARM void ActorNaviBase::vfunc_e0() {
@@ -420,10 +402,8 @@ ARM void ActorNaviBase::vfunc_e0() {
             s32 dist = 0x3000;
             if (gPlayerLink != NULL && gPlayerLink->GetCurrentCharacter() == 0) {
                 if (mUnk_28f != 0) {
-                    dist         = 0;
-                    mOffsetPos.x = gPlayerPos.x;
-                    mOffsetPos.y = gPlayerPos.y;
-                    mOffsetPos.z = gPlayerPos.z;
+                    dist       = 0;
+                    mOffsetPos = gPlayerPos;
                     mOffsetPos.y += 0x199a;
                 } else {
                     NaviFilterActor filter;
@@ -436,9 +416,7 @@ ARM void ActorNaviBase::vfunc_e0() {
                         Cylinder cyl;
                         dist = filter.mDist;
                         filter.mActor->GetHitbox(&cyl);
-                        mOffsetPos.x = cyl.pos.x;
-                        mOffsetPos.y = cyl.pos.y;
-                        mOffsetPos.z = cyl.pos.z;
+                        mOffsetPos = cyl.pos;
                         mOffsetPos.y += filter.mActor->mYOffset + 0x666;
                     }
                     struct {
@@ -451,9 +429,7 @@ ARM void ActorNaviBase::vfunc_e0() {
                     mapArgs.dist                        = dist;
                     UnkStruct_ov000_020853fc *mapResult = MapManager::func_ov00_020853fc(gMapManager, &mapArgs.pos, &dist);
                     if (mapResult != NULL && mapResult->mUnk_12 != 1) {
-                        mOffsetPos.x                    = mapResult->mUnk_18.x;
-                        mOffsetPos.y                    = mapResult->mUnk_18.y;
-                        mOffsetPos.z                    = mapResult->mUnk_18.z;
+                        mOffsetPos                      = mapResult->mUnk_18;
                         UnkStruct_ov000_020e2f04 *shape = mapResult->vfunc_54();
                         s32 height;
                         if (shape == NULL) {
@@ -491,7 +467,7 @@ ARM void ActorNaviBase::vfunc_e0() {
             if (gPlayerLink->func_ov000_020bcf2c()) {
                 return;
             }
-            if ((s32) mActiveFrames < 8) {
+            if (mActiveFrames < 8) {
                 return;
             }
             this->SetActive(1);
@@ -543,7 +519,7 @@ ARM void ActorNaviBase::vfunc_e8() {
                     break;
                 }
                 case 2:
-                    if ((s32) mVel.y >= 0) {
+                    if (mVel.y >= 0) {
                         mUnk_1d0.mUnk_0c.mUnk_04 = 0xb33;
                     } else {
                         mUnk_1d0.func_ov000_020c0e24(0);
@@ -567,11 +543,7 @@ ARM void ActorNaviBase::vfunc_14(u32 param1) {
         return;
     }
     if (mUnk_28d != 0) {
-        ActorNaviBase_Unk1 *end;
-        ActorNaviBase_Unk1 *p;
-        p   = &mUnk_218[0];
-        end = &mUnk_218[0] + 2;
-        for (; p != end; p++) {
+        for (ActorNaviBase_Unk1 *p = mUnk_218; p != mUnk_218 + 2; p++) {
             UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
             if (inst != NULL) {
                 inst->mUnk_24_3 = 1;
@@ -579,9 +551,7 @@ ARM void ActorNaviBase::vfunc_14(u32 param1) {
         }
         return;
     }
-    mPrevPos.x = mPos.x;
-    mPrevPos.y = mPos.y;
-    mPrevPos.z = mPos.z;
+    mPrevPos = mPos;
     this->vfunc_ec();
     if (mVisible) {
         s32 speed;
@@ -656,11 +626,7 @@ ARM void ActorNaviBase::vfunc_18(u32 param1) {
         return;
     }
     if (mUnk_28d != 0) {
-        ActorNaviBase_Unk1 *end;
-        ActorNaviBase_Unk1 *p;
-        p   = &mUnk_218[0];
-        end = &mUnk_218[0] + 2;
-        for (; p != end; p++) {
+        for (ActorNaviBase_Unk1 *p = mUnk_218; p != mUnk_218 + 2; p++) {
             UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
             if (inst != NULL) {
                 inst->mUnk_24_3 = 1;
@@ -715,11 +681,7 @@ ARM void ActorNaviBase::vfunc_18(u32 param1) {
     }
     mUnk_220 = (mUnk_220 + 1) % 3;
     if (gPlayerLink->func_ov000_020bcefc() || !gActorManager->mUnk_18) {
-        ActorNaviBase_Unk1 *end;
-        ActorNaviBase_Unk1 *p;
-        p   = &mUnk_218[0];
-        end = &mUnk_218[0] + 2;
-        for (; p != end; p++) {
+        for (ActorNaviBase_Unk1 *p = mUnk_218; p != mUnk_218 + 2; p++) {
             UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
             if (inst != NULL) {
                 inst->mUnk_24_3 = 1;
@@ -801,9 +763,7 @@ ARM unk32 func_ov000_020ba350(unk32 param1) {
     return param1;
 }
 ARM bool ActorNaviBase::vfunc_c0(Vec3p *param1) {
-    mOffsetPos.x = param1->x;
-    mOffsetPos.y = param1->y;
-    mOffsetPos.z = param1->z;
+    mOffsetPos = *param1;
     if (mUnk_130 != 4) {
         u32 oldState = mUnk_130;
         this->SetActive(4);
@@ -945,13 +905,9 @@ ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, Vec3p *param3) {
                 target.x -= MUL_Q20(SIN((u16) (*(s16 *) &mAngle + 0x2000)), 0x2000);
             }
         }
-        mOffsetPos.x = target.x;
-        mOffsetPos.y = target.y;
-        mOffsetPos.z = target.z;
+        mOffsetPos = target;
     } else {
-        mOffsetPos.x = target.x;
-        mOffsetPos.y = target.y;
-        mOffsetPos.z = target.z;
+        mOffsetPos = target;
         func_0202b2f8(&mOffsetPos, param3, 0x1000);
     }
     mUnk_28c = 1;
@@ -975,10 +931,8 @@ ARM void ActorNaviBase::func_ov000_020baca8(Vec3p *param1, unk32 param2) {
     if (gPlayerLink->GetCurrentCharacter() != 0) {
         return;
     }
-    mOffsetPos.x = param1->x;
-    mOffsetPos.y = param1->y;
-    mOffsetPos.z = param1->z;
-    mUnk_164     = param2;
+    mOffsetPos = *param1;
+    mUnk_164   = param2;
     this->SetActive(7);
 }
 ARM bool ActorNaviBase::vfunc_90(unk32 param1, unk32 param2) {
@@ -994,13 +948,9 @@ ARM bool ActorNaviBase::vfunc_90(unk32 param1, unk32 param2) {
             mUnk_222 = path->mUnk_00->mUnk_01 - 1;
         }
         UnkStruct_ov000_020b1d70_04 *node = &path->mUnk_04[mUnk_222];
-        mOffsetPos.x                      = node->mUnk_04.x;
-        mOffsetPos.y                      = node->mUnk_04.y;
-        mOffsetPos.z                      = node->mUnk_04.z;
+        mOffsetPos                        = node->mUnk_04;
         Vec3p pos;
-        pos.x        = mOffsetPos.x;
-        pos.y        = mOffsetPos.y;
-        pos.z        = mOffsetPos.z;
+        pos          = mOffsetPos;
         mOffsetPos.y = gMapManager->MapData_vfunc_68(&pos, 1) + 0x1000;
         this->SetActive(9);
     }
@@ -1019,13 +969,9 @@ ARM bool ActorNaviBase::vfunc_90(unk32 param1, unk32 param2) {
             mUnk_222++;
         }
         UnkStruct_ov000_020b1d70_04 *node = &path->mUnk_04[mUnk_222];
-        mOffsetPos.x                      = node->mUnk_04.x;
-        mOffsetPos.y                      = node->mUnk_04.y;
-        mOffsetPos.z                      = node->mUnk_04.z;
+        mOffsetPos                        = node->mUnk_04;
         Vec3p pos;
-        pos.x        = mOffsetPos.x;
-        pos.y        = mOffsetPos.y;
-        pos.z        = mOffsetPos.z;
+        pos          = mOffsetPos;
         mOffsetPos.y = gMapManager->MapData_vfunc_68(&pos, 1) + 0x1000;
     }
     return false;
@@ -1038,26 +984,16 @@ ARM void ActorNaviBase::vfunc_94(unk32 param1, unk32 param2) {
     UnkStruct_ov000_020b1d70 *path = func_ov000_020b1d70(param1, &mPos, NULL);
     if (param2 != 0) {
         UnkStruct_ov000_020b1d70_04 *node = path->mUnk_04;
-        mOffsetPos.x                      = node->mUnk_04.x;
-        mOffsetPos.y                      = node->mUnk_04.y;
-        mOffsetPos.z                      = node->mUnk_04.z;
+        mOffsetPos                        = node->mUnk_04;
     } else {
         UnkStruct_ov000_020b1d70_04 *node = &path->mUnk_04[path->mUnk_00->mUnk_01 - 1];
-        mOffsetPos.x                      = node->mUnk_04.x;
-        mOffsetPos.y                      = node->mUnk_04.y;
-        mOffsetPos.z                      = node->mUnk_04.z;
+        mOffsetPos                        = node->mUnk_04;
     }
     Vec3p pos;
-    pos.x        = mOffsetPos.x;
-    pos.y        = mOffsetPos.y;
-    pos.z        = mOffsetPos.z;
+    pos          = mOffsetPos;
     mOffsetPos.y = gMapManager->MapData_vfunc_68(&pos, 1) + 0x1000;
-    mPos.x       = mOffsetPos.x;
-    mPos.y       = mOffsetPos.y;
-    mPos.z       = mOffsetPos.z;
-    mPrevPos.x   = mOffsetPos.x;
-    mPrevPos.y   = mOffsetPos.y;
-    mPrevPos.z   = mOffsetPos.z;
+    mPos         = mOffsetPos;
+    mPrevPos     = mOffsetPos;
     this->SetActive(9);
 }
 ARM void ActorNaviBase::func_ov000_020bb0ac() {
