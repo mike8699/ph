@@ -20,10 +20,14 @@ struct UnkStruct_ov000_020c0c08_04 {
 };
 
 class ItemModel {
+public:
     /* 00 */ unk32 mUnk_00;
     /* 04 */ unk32 mUnk_04;
     /* 08 */ unk32 mUnk_08;
     /* 0c */
+
+    void func_020193f0(u32 materialIdx, u32 color);
+    void func_02019534(u32 materialIdx, u32 alpha);
 };
 
 class UnkStruct_ov000_020c0c08 : public SysObject {

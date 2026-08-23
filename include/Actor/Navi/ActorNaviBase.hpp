@@ -18,6 +18,12 @@ enum FairyId_ {
     FairyId_COUNT   = 3,
 };
 
+u16 func_ov000_020b8790(FairyId fairy);
+u16 func_ov000_020b87cc(FairyId fairy);
+u16 func_ov000_020b8808(FairyId fairy);
+u16 func_ov000_020b881c(FairyId fairy);
+void func_ov000_020b8830(ItemModel *model, u32 color1, u32 color2);
+
 class ActorNaviBase_Unk1 : public UnkStruct_ov000_020b7d74 {
 public:
     ActorNaviBase_Unk1();

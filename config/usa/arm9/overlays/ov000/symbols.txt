@@ -2290,7 +2290,7 @@ _ZN24UnkStruct_ov004_0210abb8D1Ev kind:function(arm,size=0x1c) addr:0x020b3e18
 _ZN24UnkStruct_ov004_0210abb8D0Ev kind:function(arm,size=0x14) addr:0x020b3e34
 func_ov000_020b3ea8 kind:function(thumb,size=0x2) addr:0x020b3e48
 GetModelUnknownHeader kind:function(arm,size=0x18) addr:0x020b3e4c
-func_ov000_020b3ec4 kind:function(arm,size=0x24) addr:0x020b3e64
+_ZN11ModelRender19func_ov000_020b3ec4Ev kind:function(arm,size=0x24) addr:0x020b3e64
 func_ov000_020b3ee8 kind:function(arm,size=0x3c) addr:0x020b3e88
 func_ov000_020b3f24 kind:function(arm,size=0x54) addr:0x020b3ec4
 func_ov000_020b3f78 kind:function(arm,size=0x84) addr:0x020b3f18
@@ -2437,11 +2437,11 @@ func_ov000_020b8718 kind:function(arm,size=0x8) addr:0x020b86b8
 func_ov000_020b8720 kind:function(thumb,size=0x34) addr:0x020b86c0
 func_ov000_020b8754 kind:function(thumb,size=0x14) addr:0x020b86f4
 func_ov000_020b8768 kind:function(arm,size=0x28) addr:0x020b8708
-func_ov000_020b8790 kind:function(arm,size=0x3c) addr:0x020b8730
-func_ov000_020b87cc kind:function(arm,size=0x3c) addr:0x020b876c
-func_ov000_020b8808 kind:function(arm,size=0x14) addr:0x020b87a8
-func_ov000_020b881c kind:function(arm,size=0x14) addr:0x020b87bc
-func_ov000_020b8830 kind:function(arm,size=0x2c) addr:0x020b87d0
+_Z19func_ov000_020b8790i kind:function(arm,size=0x3c) addr:0x020b8730
+_Z19func_ov000_020b87cci kind:function(arm,size=0x3c) addr:0x020b876c
+_Z19func_ov000_020b8808i kind:function(arm,size=0x14) addr:0x020b87a8
+_Z19func_ov000_020b881ci kind:function(arm,size=0x14) addr:0x020b87bc
+_Z19func_ov000_020b8830P9ItemModeljj kind:function(arm,size=0x2c) addr:0x020b87d0
 _ZN13ActorNaviBase8vfunc_c4Ev kind:function(arm,size=0x2c) addr:0x020b87fc
 _ZN13ActorNaviBase8vfunc_c8Ev kind:function(arm,size=0x2c) addr:0x020b8828
 _ZN13ActorNaviBase8vfunc_30Ev kind:function(arm,size=0x8) addr:0x020b8854
@@ -3735,10 +3735,10 @@ sDefaultMaxShipHealth kind:data(any) addr:0x020dc76c
 data_ov000_020dc7d0 kind:data(any) addr:0x020dc770
 data_ov000_020dc7e4 kind:data(any) addr:0x020dc784
 data_ov000_020dc7f8 kind:data(any) addr:0x020dc798
-data_ov000_020dc800 kind:data(any) addr:0x020dc7a0
-data_ov000_020dc808 kind:data(any) addr:0x020dc7a8
-data_ov000_020dc810 kind:data(any) addr:0x020dc7b0
-data_ov000_020dc816 kind:data(any) addr:0x020dc7b6
+data_ov000_020dc800 kind:data(any) addr:0x020dc7a0 local
+data_ov000_020dc808 kind:data(any) addr:0x020dc7a8 local
+data_ov000_020dc810 kind:data(any) addr:0x020dc7b0 local
+data_ov000_020dc816 kind:data(any) addr:0x020dc7b6 local
 sFairyModelIds kind:data(any) addr:0x020dc7bc local
 sNaviNames kind:data(any) addr:0x020dc7c8 local
 data_ov000_020dc83c kind:data(any) addr:0x020dc7dc local

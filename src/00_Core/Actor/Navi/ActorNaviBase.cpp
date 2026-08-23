@@ -20,6 +20,7 @@
 #include "Save/AdventureFlags.hpp"
 #include "System/Random.hpp"
 #include "Unknown/UnkStruct_020e9360.hpp"
+#include "Unknown/UnkStruct_020e9370.hpp"
 #include "Unknown/UnkStruct_020eec9c.hpp"
 #include "Unknown/UnkStruct_ov000_020b1d70.hpp"
 #include "Unknown/UnkStruct_ov000_020beba8.hpp"
@@ -39,19 +40,17 @@ public:
     /* 0 */ virtual bool Filter(Actor *actor) override;
 };
 
-extern "C" u16 func_ov000_020b8790(s32);
-extern "C" u16 func_ov000_020b87cc(s32);
-extern "C" void func_ov000_020b8830(ItemModel *model, u32 color1, u32 color2);
-extern "C" void func_02019534(void *model, unk32 materialIdx, unk32 color);
-extern "C" u32 func_ov000_020b3ec4(ActorNaviBase_Unk3 *unk);
-
 #pragma section sbss begin
 ItemModel *data_ov000_020ee1f8;
 #pragma section sbss end
 
 UnkStruct_ov000_020e678c data_ov000_020e678c = {{"anc", "bow", "hul", "can", "dco", "pdl", "fnl", "brg"}, NULL, 0, 0};
 
-static const u32 sFairyModelIds[FairyId_COUNT] = {0x24f, 0x251, 0x250};
+static const u16 data_ov000_020dc800[FairyId_COUNT + 1] = {0x7fff, 0xc1f, 0x7e20, 0x67ff};
+static const u16 data_ov000_020dc808[FairyId_COUNT + 1] = {0x7fff, 0x293f, 0x672c, 0x4bff};
+static const u16 data_ov000_020dc810[FairyId_COUNT]     = {0x275, 0x4818, 0x3802};
+static const u16 data_ov000_020dc816[FairyId_COUNT]     = {0x254, 0x4418, 0x3442};
+static const u32 sFairyModelIds[FairyId_COUNT]          = {0x24f, 0x251, 0x250};
 
 struct ActorNaviBase_NameEntry {
     char name[16];
@@ -61,6 +60,33 @@ static const ActorNaviBase_NameEntry sNaviNames[1] = {{"navi", 0}};
 
 static const Vec3p data_ov000_020dc83c = {-0x800, 0xccd, 0x800};
 static const Vec3p data_ov000_020dc848 = {0x800, 0x1000, -0x333};
+
+ARM u16 func_ov000_020b8790(FairyId fairy) {
+    if (fairy == FairyId_Courage && gItemManager->HasItem(ItemFlag_SpiritOfCourage)) {
+        fairy = FairyId_COUNT;
+    }
+    return data_ov000_020dc800[fairy];
+}
+
+ARM u16 func_ov000_020b87cc(FairyId fairy) {
+    if (fairy == FairyId_Courage && gItemManager->HasItem(ItemFlag_SpiritOfCourage)) {
+        fairy = FairyId_COUNT;
+    }
+    return data_ov000_020dc808[fairy];
+}
+
+ARM u16 func_ov000_020b8808(FairyId fairy) {
+    return data_ov000_020dc810[fairy];
+}
+
+ARM u16 func_ov000_020b881c(FairyId fairy) {
+    return data_ov000_020dc816[fairy];
+}
+
+ARM void func_ov000_020b8830(ItemModel *model, u32 color1, u32 color2) {
+    model->func_020193f0(0, color1);
+    model->func_020193f0(1, color2);
+}
 
 ARM u16 ActorNaviBase::vfunc_c4() {
     if (mUnk_28d != 0) {
@@ -702,12 +728,12 @@ ARM void ActorNaviBase::func_ov000_020b9fe8() {
     func_ov000_020b8830(data_ov000_020ee1f8, color1, color2);
 
     unk32 colorResult = data_ov000_020e9360.func_ov000_02079e68(2);
-    func_02019534(data_ov000_020ee1f8, 0, colorResult);
+    data_ov000_020ee1f8->func_02019534(0, colorResult);
 
     Vec3p pos;
     Vec3p scale;
     pos.x = mPos.x;
-    pos.y = mPos.y - func_ov000_020b3ec4(&mUnk_168);
+    pos.y = mPos.y - mUnk_168.func_ov000_020b3ec4();
     pos.z = mPos.z;
 
     if (mUnk_164 == 0) {
@@ -721,8 +747,6 @@ ARM void ActorNaviBase::func_ov000_020b9fe8() {
     }
     mUnk_168.SetTransform(&scale, &gDefaultMatrix, &pos);
 }
-extern unk32 data_ov000_020e9370;
-extern "C" void func_ov005_02102c2c(unk32 *, unk32, Vec3p *, unk32, unk32, unk32, unk32, unk32, unk32, unk32);
 ARM void ActorNaviBase::vfunc_20(bool param1) {
     u8 flag = param1 ? mUnk_0a4.mUnk_01 : mUnk_0a4.mUnk_00;
     if (flag == 0) {
@@ -732,7 +756,7 @@ ARM void ActorNaviBase::vfunc_20(bool param1) {
         return;
     }
     data_ov000_020e9c88.func_ov000_0207b89c(param1, &mPos, func_ov000_020b9fdc, this);
-    func_ov005_02102c2c(&data_ov000_020e9370, 0, &mPos, 0x400, 0x400, 0, 0x10, 0, 0, 0);
+    data_ov000_020e9370.func_ov005_02102c2c(0, &mPos, 0x400, 0x400, 0, 0x10, 0, 0, 0);
 }
 ARM void ActorNaviBase::vfunc_10(u32 param1) {
     if (mUnk_130 == 0 && gItemManager->GetEquippedFairy() == GetFairyId()) {
