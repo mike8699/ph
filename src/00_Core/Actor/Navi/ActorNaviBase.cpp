@@ -264,12 +264,13 @@ ARM void ActorNaviBase::vfunc_d4() {
             return;
         case 8: {
             s32 y = mPos.y;
-            switch ((s16) mUnk_28a) {
+            switch (mUnk_28a) {
                 case 1: {
-                    s32 dy = mOffsetPos.y + MUL_Q20(SIN((u16) (mActiveFrames * 0x1555)), 0x266) - mPos.y;
-                    mVel.x = 0;
-                    mVel.y = dy;
-                    mVel.z = 0;
+                    u16 angle = mActiveFrames * 0x1555;
+                    s32 dy    = mOffsetPos.y + MUL_Q20(SIN(angle), 0x266) - mPos.y;
+                    mVel.x    = 0;
+                    mVel.y    = dy;
+                    mVel.z    = 0;
                     break;
                 }
                 case 2: {
@@ -281,10 +282,11 @@ ARM void ActorNaviBase::vfunc_d4() {
                     break;
                 }
                 case 3: {
-                    s32 dy = mOffsetPos.y + MUL_Q20(SIN((u16) (mActiveFrames * 0xaab)), 0x333) - mPos.y;
-                    mVel.x = 0;
-                    mVel.y = dy;
-                    mVel.z = 0;
+                    u16 angle = mActiveFrames * 0xaab;
+                    s32 dy    = mOffsetPos.y + MUL_Q20(SIN(angle), 0x333) - mPos.y;
+                    mVel.x    = 0;
+                    mVel.y    = dy;
+                    mVel.z    = 0;
                     break;
                 }
                 default:
@@ -514,7 +516,7 @@ ARM void ActorNaviBase::vfunc_e8() {
                     mUnk_1d0.mUnk_0c.mUnk_04 = 0x2000;
                     break;
                 case 3: {
-                    u16 angle                = (u16) (mActiveFrames * 0xaab);
+                    u16 angle                = mActiveFrames * 0xaab;
                     mUnk_1d0.mUnk_0c.mUnk_04 = 0x1800 - MUL_Q20(SIN(angle), 0x800);
                     break;
                 }
@@ -567,7 +569,7 @@ ARM void ActorNaviBase::vfunc_14(u32 param1) {
         Vec3p prevPos = mPrevPos;
         pos.y += 0x333;
         prevPos.y += 0x333;
-        speed = Vec3p_Length(&mVel) - ((s32) ((u32) (mUnk_220 * 0x3000) >> 1) / 3);
+        speed = Vec3p_Length(&mVel) - (s32) ((u32) (mUnk_220 * 0x3000) / 2) / 3;
         inst0 = mUnk_218[0].mUnk_0;
         if (inst0 != NULL) {
             inst0->mUnk_28.x = pos.x + (*inst0->mUnk_20)->mUnk_04.x;
@@ -783,7 +785,7 @@ ARM bool ActorNaviBase::func_ov000_020ba458() {
 
 ARM void ActorNaviBase::func_ov000_020ba4e4() {
     Vec3p tmp = data_ov000_020dc83c;
-    s16 angle = *(s16 *) &gPlayerAngle;
+    s16 angle = (s16) gPlayerAngle;
     if (angle < 0) {
         tmp.x = -tmp.x;
     }
@@ -793,7 +795,7 @@ ARM void ActorNaviBase::func_ov000_020ba4e4() {
 
 ARM void ActorNaviBase::func_ov000_020ba53c() {
     Vec3p tmp = data_ov000_020dc848;
-    s16 angle = *(s16 *) &gPlayerAngle;
+    s16 angle = (s16) gPlayerAngle;
     if ((angle > 0 && angle < 0x4000) || angle < -0x4000) {
         tmp.x = -tmp.x;
     }
@@ -869,7 +871,7 @@ ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, Vec3p *param3) {
     if (param3 == NULL) {
         if (data_027e0d38->mUnk_0c.func_ov000_020a5e9c() == 0x31) {
             s32 rawAngle = data_027e0f64->mUnk_4->mUnk_226 + 0x2000;
-            u16 angle    = (u16) (s16) rawAngle;
+            u16 angle    = (s16) rawAngle;
             target.x += MUL_Q20(SIN(angle), 0x1000);
             target.z += MUL_Q20(COS(angle), 0x1000);
             Vec3p pos;
@@ -880,7 +882,7 @@ ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, Vec3p *param3) {
                 target.x -= MUL_Q20(SIN((u16) rawAngle), 0x2000);
             }
         } else {
-            u16 angle = (u16) (s16) (*(s16 *) &mAngle + 0x2000);
+            u16 angle = (s16) ((s16) mAngle + 0x2000);
             target.x += MUL_Q20(SIN(angle), 0x1000);
             target.z += MUL_Q20(COS(angle), 0x1000);
             Vec3p pos;
@@ -888,7 +890,7 @@ ARM bool ActorNaviBase::vfunc_bc(unk32 param1, unk8 param2, Vec3p *param3) {
             s32 mapY  = gMapManager->MapData_vfunc_68(&pos, 1);
             u32 below = target.y < mapY;
             if (below) {
-                target.x -= MUL_Q20(SIN((u16) (*(s16 *) &mAngle + 0x2000)), 0x2000);
+                target.x -= MUL_Q20(SIN((u16) ((s16) mAngle + 0x2000)), 0x2000);
             }
         }
         mOffsetPos = target;
@@ -911,7 +913,7 @@ ARM void ActorNaviBase::vfunc_74(ActorRef *ref) {
     mUnk_28a = 0;
 }
 ARM void ActorNaviBase::func_ov000_020baca8(Vec3p *param1, unk32 param2) {
-    if (*(u8 *) &mUnk_11c != 0 || mUnk_291 != 0) {
+    if (mUnk_11c || mUnk_291 != 0) {
         return;
     }
     if (gPlayerLink->GetCurrentCharacter() != 0) {
