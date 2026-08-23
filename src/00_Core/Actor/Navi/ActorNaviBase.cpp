@@ -344,21 +344,17 @@ ARM void ActorNaviBase::vfunc_d4() {
 }
 ARM void ActorNaviBase::SetActive(unk32 active) {
     if (mUnk_130 == 0 && active != 0) {
+        mVisible = true;
+        mUnk_290 = 0;
         u32 i;
         UnkStruct_027e0e58 *inst;
         ActorNaviBase_Unk1 *p;
-        mVisible = true;
-        mUnk_290 = 0;
-        i        = 0;
-        p        = &mUnk_218[0];
-        do {
-            if (p->mUnk_0 == 0) {
+        for (i = 0, p = mUnk_218; i < 2; i++, p++) {
+            if (p->mUnk_0 == NULL) {
                 inst = data_027e0e58;
                 inst->func_ov000_0207c1f8(p, sFairyModelIds[GetFairyId()], &mPos, 2);
             }
-            i++;
-            p++;
-        } while (i < 2);
+        }
         TeleportAboveLink();
     }
     switch (active) {
