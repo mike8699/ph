@@ -29,6 +29,8 @@
 #include "Unknown/UnkStruct_ov000_020e8b08.hpp"
 #include "Unknown/UnkStruct_ov000_020e9c88.hpp"
 
+#include <nds/gfx.h>
+
 class NaviFilterActor : public FilterActorBase {
 public:
     /* 00 (base) */
@@ -46,10 +48,13 @@ ItemModel *data_ov000_020ee1f8;
 
 UnkStruct_ov000_020e678c data_ov000_020e678c = {{"anc", "bow", "hul", "can", "dco", "pdl", "fnl", "brg"}, NULL, 0, 0};
 
-static const u16 data_ov000_020dc800[FairyId_COUNT + 1] = {0x7fff, 0xc1f, 0x7e20, 0x67ff};
-static const u16 data_ov000_020dc808[FairyId_COUNT + 1] = {0x7fff, 0x293f, 0x672c, 0x4bff};
-static const u16 data_ov000_020dc810[FairyId_COUNT]     = {0x275, 0x4818, 0x3802};
-static const u16 data_ov000_020dc816[FairyId_COUNT]     = {0x254, 0x4418, 0x3442};
+// Indexed by FairyId; the extra entry is used for the Spirit of Courage
+static const u16 data_ov000_020dc800[FairyId_COUNT + 1] = {GX_RGB(31, 31, 31), GX_RGB(31, 0, 3), GX_RGB(0, 17, 31),
+                                                           GX_RGB(31, 31, 25)};
+static const u16 data_ov000_020dc808[FairyId_COUNT + 1] = {GX_RGB(31, 31, 31), GX_RGB(31, 9, 10), GX_RGB(12, 25, 25),
+                                                           GX_RGB(31, 31, 18)};
+static const u16 data_ov000_020dc810[FairyId_COUNT]     = {GX_RGB(21, 19, 0), GX_RGB(24, 0, 18), GX_RGB(2, 0, 14)};
+static const u16 data_ov000_020dc816[FairyId_COUNT]     = {GX_RGB(20, 18, 0), GX_RGB(24, 0, 17), GX_RGB(2, 2, 13)};
 static const u32 sFairyModelIds[FairyId_COUNT]          = {0x24f, 0x251, 0x250};
 
 struct ActorNaviBase_NameEntry {
