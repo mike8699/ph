@@ -601,18 +601,11 @@ ARM void ActorNaviBase::vfunc_14(u32 param1) {
     } else if (mUnk_130 == 0 && !this->vfunc_cc(NULL)) {
         this->SetActive(1);
     }
-    {
-        ActorNaviBase_Unk1 *p = &mUnk_218[0];
-        bool visible          = mVisible;
-        if (p != &mUnk_218[0] + 2) {
-            u32 hidden = !visible;
-            do {
-                UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
-                if (inst != NULL) {
-                    inst->mUnk_24_3 = hidden;
-                }
-                p++;
-            } while (p != &mUnk_218[0] + 2);
+    bool visible = mVisible;
+    for (ActorNaviBase_Unk1 *p = mUnk_218; p != mUnk_218 + 2; p++) {
+        UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
+        if (inst != NULL) {
+            inst->mUnk_24_3 = !visible;
         }
     }
     if (!mVisible) {
@@ -689,18 +682,11 @@ ARM void ActorNaviBase::vfunc_18(u32 param1) {
         }
         return;
     }
-    {
-        ActorNaviBase_Unk1 *p = &mUnk_218[0];
-        bool visible          = mVisible;
-        if (p != &mUnk_218[0] + 2) {
-            u32 hidden = !visible;
-            do {
-                UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
-                if (inst != NULL) {
-                    inst->mUnk_24_3 = hidden;
-                }
-                p++;
-            } while (p != &mUnk_218[0] + 2);
+    bool visible = mVisible;
+    for (ActorNaviBase_Unk1 *p = mUnk_218; p != mUnk_218 + 2; p++) {
+        UnkStruct_ov000_020b7d74_00 *inst = p->mUnk_0;
+        if (inst != NULL) {
+            inst->mUnk_24_3 = !visible;
         }
     }
 }
